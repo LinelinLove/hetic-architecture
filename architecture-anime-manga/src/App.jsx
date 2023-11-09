@@ -1,34 +1,47 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [anime, setAnime] = useState("");
+  const [input, setInput] = useState("");
+  const [post, setPost] = useState("");
+  const [isDisplay, SetIsDisplay] = useState(false);
+
+  useEffect(() => {}, []);
+
+  function saveInput(e) {
+    setInput(e.target.value);
+  }
+
+  function sendInput() {
+    fetch("http://localhost:3000/backend", {
+      method: "POST",
+
+      body: JSON.stringify(input),
+    })
+      .then((res) => res.json())
+      .then((data) => setPost(data));
+  }
+
+  function afficherAnime() {
+    if (isDisplay === false) {
+      SetIsDisplay(true);
+      fetch("http://localhost:3000/backend")
+        .then((res) => res.json())
+        .then((data) => setAnime(data));
+    } else {
+      SetIsDisplay(false);
+      setAnime("");
+    }
+  }
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      {/* <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
+      <p>{post.title}</p>
+      <input type="text" name="" id="" onChange={saveInput} />{" "}
+      <button onClick={sendInput}>Post bouton</button>
+      <button onClick={afficherAnime}>Cliquer ici</button>
+      <h1 className="text-3xl font-bold underline">{anime.title}</h1>
     </>
   );
 }

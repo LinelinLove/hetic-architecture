@@ -23,4 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-.env
+# architecture-anime-manga/.gitignore
+
+../backend/.env

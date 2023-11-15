@@ -2,6 +2,7 @@ CREATE TABLE `user` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `firstname` varchar(255),
   `lasname` varchar(255),
+  `username` varchar(255) UNIQUE;
   `mail` varchar(255),
   `telephone` int,
   `pwd` varchar(255),

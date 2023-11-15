@@ -1,0 +1,23 @@
+input[type="date"]:invalid + span:after {
+  content: "Date de naissance";
+  position: absolute;
+  left: 16px;
+  top: 20%;
+  color: #9ca3af;
+}
+
+input[type="date"]:focus:invalid + span:after {
+  display: none;
+}
+
+input:not(:focus):invalid {
+  color: transparent;
+}
+
+label.wrapper {
+  position: relative;
+}
+
+.wrapper {
+  width: 100%;
+}

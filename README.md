@@ -8,7 +8,7 @@ Projet en Architecture Technique (Groupe 15)
 
 Contributeurs : 
 <ul>
-  <li><a href="https://github.com/OrBital1650">Lorys L.</a></li>
+  <li><a href="https://github.com/MrStagiaire">Lorys L.</a></li>
   <li><a href="https://github.com/LinelinLove">Chrisline L.</a></li>
   <li><a href="https://github.com/Myakii">Rosine Y.</a></li>
   <li><a href="https://github.com/ImThari">Tharishanan M.</a></li>

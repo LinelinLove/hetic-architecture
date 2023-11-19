@@ -38,25 +38,36 @@ export default function Header() {
             <Link to="/">Accueil</Link>
           </li>
           <li>
-            <Link to="/profil">Profil</Link>
-          </li>
-          <li>
             <Link to="/listAnimes">Liste des animes</Link>
           </li>
-          <li>
-            <Link to="/settings">Paramètres</Link>
-          </li>
-          <li>
-            <Link to="/signup">S'inscrire</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
           {isUserLoggedIn ? (
-            <Link onClick={handleSignOut}>Se déconnecter</Link>
+            <li>
+              <Link to="/profil">Profil</Link>
+            </li>
           ) : (
-            <Link to="/login">Se connecter</Link>
+            ""
           )}
+          {isUserLoggedIn ? (
+            <li>
+              <Link to="/settings">Paramètres</Link>
+            </li>
+          ) : (
+            ""
+          )}
+          {isUserLoggedIn ? (
+            ""
+          ) : (
+            <li>
+              <Link to="/signup">S'inscrire</Link>
+            </li>
+          )}
+          <li>
+            {isUserLoggedIn ? (
+              <Link onClick={handleSignOut}>Se déconnecter</Link>
+            ) : (
+              <Link to="/login">Se connecter</Link>
+            )}
+          </li>
         </ul>
       </nav>
     </header>

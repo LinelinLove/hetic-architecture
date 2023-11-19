@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import ListAnimes from "./pages/ListAnimes";
 import Settings from "./pages/Settings";
 import Profil from "./pages/Profil";
+import Mentions from "./pages/Mentions";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/listAnimes" element={<ListAnimes />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/mentions" element={<Mentions />} />
           </Routes>
         </div>
         <Footer />

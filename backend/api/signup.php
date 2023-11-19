@@ -16,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     error_log('Received data: ' . print_r($data, true));
     $username = $data['username'];
     $email = $data['email'];
-    $password = $data['password'];
-    // $password = password_hash($data['password'], PASSWORD_BCRYPT);
+    // $password = $data['password'];
+    $password = password_hash($data['password'], PASSWORD_BCRYPT);
 
     error_log('Username: ' . $username);
     error_log('Email: ' . $email);

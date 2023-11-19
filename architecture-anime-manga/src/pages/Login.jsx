@@ -19,10 +19,36 @@ export default function Login() {
         email,
         password
       );
+
       const user = userCredential.user;
       console.log("User logged in successfully:", user);
+      // Utilisez l'ID de l'utilisateur pour récupérer les informations supplémentaires depuis votre base de données
+      const additionalUserData = await fetchUserDataFromYourDatabase(user.uid);
     } catch (error) {
       console.error("Login error:", error);
+    }
+  };
+
+  const fetchUserDataFromYourDatabase = async (userId) => {
+    try {
+      // Effectuez une requête à votre base de données pour récupérer les informations supplémentaires de l'utilisateur
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_REACT_APP_API_URL
+        }hetic-architecture/backend/api/signup.php/${userId}`
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data; // Vous pouvez personnaliser cela en fonction de votre structure de données
+      } else {
+        console.error("Error fetching user data:", data.message);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      return null;
     }
   };
 

@@ -19,6 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // $password = $data['password'];
     $password = password_hash($data['password'], PASSWORD_BCRYPT);
 
+    // Ajoutez la récupération de l'UID depuis Firebase
+    $firebaseUid = $data['firebaseUid']; // Assurez-vous que cette clé correspond à celle utilisée côté client
+
+
     error_log('Username: ' . $username);
     error_log('Email: ' . $email);
 
@@ -29,9 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $db = \App\Config\DatabaseManager::getDB();
-
-        $stmt = $db->prepare('INSERT INTO user (username, mail, pwd) VALUES (?, ?, ?)');
-        $stmt->execute([$username, $email, $password]);
+        $stmt = $db->prepare('INSERT INTO user (username, mail, pwd, uid_firebase) VALUES (?, ?, ?, ?)');
+        $stmt->execute([$username, $email, $password, $firebaseUid]);
 
         // error_log('User registered successfully');
 

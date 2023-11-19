@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 19 nov. 2023 à 15:26
+-- Généré le : dim. 19 nov. 2023 à 22:13
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -82,12 +82,12 @@ CREATE TABLE IF NOT EXISTS `user` (
   `telephone` int DEFAULT NULL,
   `pwd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `gender` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `uid_firebase` int DEFAULT NULL,
+  `uid_firebase` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `profil_picture` blob,
   `birthday` date DEFAULT NULL,
   `role` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 

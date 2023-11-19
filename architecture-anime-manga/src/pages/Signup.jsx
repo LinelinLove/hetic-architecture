@@ -3,27 +3,6 @@ import InputComponent from "../components/atoms/InputComponent";
 import "./Signup.css";
 
 export default function Signup() {
-  // useEffect(() => {
-  //   // Assurez-vous d'ajuster l'URL en fonction de votre configuration
-  //   const apiUrl =
-  //     import.meta.env.VITE_REACT_APP_API_URL +
-  //     "hetic-architecture/backend/api/db_connexion.php";
-
-  //   fetch(apiUrl)
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       console.log("Database connection successful:", data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error checking database connection:", error);
-  //     });
-  // }, []);
-
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -79,20 +58,24 @@ export default function Signup() {
             type="text"
             placeholder="Pseudo"
             required={true}
-            id="username"
+            name="username"
+            onChange={handleChange}
           />
+
           <InputComponent
             type="email"
             placeholder="E-mail"
             required={true}
-            id="email"
+            name="email"
+            onChange={handleChange}
           />
           {/* <InputComponent type="telephone" placeholder="Téléphone" /> */}
           <InputComponent
             type="password"
             placeholder="Mot de passe"
             required={true}
-            id="password"
+            name="password"
+            onChange={handleChange}
           />
           <InputComponent
             type="password"

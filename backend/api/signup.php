@@ -12,10 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // $email = $_POST['email'];
     // $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $data = json_decode(file_get_contents('php://input'), true);
+
     error_log('Received data: ' . print_r($data, true));
     $username = $data['username'];
     $email = $data['email'];
-    $password = password_hash($data['password'], PASSWORD_BCRYPT);
+    $password = $data['password'];
+    // $password = password_hash($data['password'], PASSWORD_BCRYPT);
 
     error_log('Username: ' . $username);
     error_log('Email: ' . $email);
@@ -31,9 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $db->prepare('INSERT INTO user (username, mail, pwd) VALUES (?, ?, ?)');
         $stmt->execute([$username, $email, $password]);
 
-        error_log('User registered successfully');
+        // error_log('User registered successfully');
 
         echo json_encode(['status' => 'success', 'message' => 'User registered successfully']);
+        // echo json_encode(['data' => $data]);
     } catch (\PDOException $e) {
         error_log('Error registering user: ' . $e->getMessage());
 

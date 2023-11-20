@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, Navigate } from "react-router-dom";
 import InputComponent from "../components/atoms/InputComponent";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
+import { useAuth } from "../pages/AuthContext";
 import { app } from "../firebaseConfig";
 
 const auth = getAuth(app);
 
 export default function Signup() {
+  const { isUserLoggedIn } = useAuth();
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -70,7 +71,9 @@ export default function Signup() {
       handleSubmit(e);
     }
   };
-
+  if (isUserLoggedIn) {
+    return <Navigate to="/" />;
+  }
   return (
     <div className="gap-10 flex flex-col items-center p-4">
       <div className="bg-black gap-10 flex flex-col items-center p-10 rounded-xl mt-16">

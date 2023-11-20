@@ -1,14 +1,14 @@
 import InputComponent from "../components/atoms/InputComponent";
-import { Link } from "react-router-dom";
-
+import { Link, Navigate } from "react-router-dom";
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
+import { useAuth } from "../pages/AuthContext";
 import { app } from "../firebaseConfig";
 
 const auth = getAuth(app);
 
 export default function Login() {
+  const { isUserLoggedIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -35,6 +35,10 @@ export default function Login() {
       handleSignIn(e);
     }
   };
+
+  if (isUserLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="gap-10 flex flex-col items-center p-4">

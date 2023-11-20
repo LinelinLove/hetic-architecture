@@ -14,7 +14,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 export default function Affiche() {
   return (
-    <>
+    <div className="mx-[90px] my-4">
       <Swiper
         loop={true}
         spaceBetween={30}
@@ -42,6 +42,6 @@ export default function Affiche() {
         <SwiperSlide>Slide 8</SwiperSlide>
         <SwiperSlide>Slide 9</SwiperSlide>
       </Swiper>
-    </>
+    </div>
   );
 }

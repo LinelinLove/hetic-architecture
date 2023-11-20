@@ -12,6 +12,7 @@ import Profil from "./pages/Profil";
 import Mentions from "./pages/Mentions";
 import PrivateRoute from "./pages/PrivateRoute";
 import { AuthProvider } from "./pages/AuthContext";
+import Anime from "./pages/Anime";
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
               <Route path="/listAnimes" element={<ListAnimes />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/mentions" element={<Mentions />} />
+              <Route path="/anime" element={<Anime />} />
             </Routes>
           </div>
           <Footer />

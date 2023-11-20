@@ -14,33 +14,30 @@ export default function Settings() {
           <InputComponent
             type="text"
             placeholder="Pseudo"
-            required={true}
             name="username"
             // onChange={handleChange}
           />
           <InputComponent
             type="email"
             placeholder="E-mail"
-            required={true}
             name="email"
             // onChange={handleChange}
           />
-          <InputComponent type="text" placeholder="Nom" />
-          <InputComponent type="text" placeholder="Prénom" />
+          <InputComponent type="text" placeholder="Nom" name="lastname" />
+          <InputComponent type="text" placeholder="Prénom" name="firstname" />
 
           <InputComponent type="telephone" placeholder="Téléphone" />
-          <InputComponent
+          {/* <InputComponent
             type="password"
             placeholder="Mot de passe"
-            required={true}
             name="password"
-            // onChange={handleChange}
-          />
-          <InputComponent
+            onChange={handleChange}
+          /> */}
+          {/* <InputComponent
             type="password"
             placeholder="Confirmer mot de passe"
             required={true}
-          />
+          /> */}
 
           <label className="wrapper">
             <input
@@ -50,6 +47,7 @@ export default function Settings() {
             />
             <span></span>
           </label>
+
           <button type="submit">Modifier</button>
         </form>
       </div>

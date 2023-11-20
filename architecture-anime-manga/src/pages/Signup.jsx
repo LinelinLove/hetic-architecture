@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import InputComponent from "../components/atoms/InputComponent";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -63,12 +65,19 @@ export default function Signup() {
     }
   };
 
+  const handleEnterKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);
+    }
+  };
+
   return (
     <div className="gap-10 flex flex-col items-center p-4">
       <div className="bg-black gap-10 flex flex-col items-center p-10 rounded-xl mt-16">
         <h1>S'inscrire à Eiga</h1>
         <form
           onSubmit={handleSubmit}
+          onKeyDown={handleEnterKeyPress}
           className="flex flex-col items-center gap-4 w-full"
         >
           <InputComponent
@@ -92,7 +101,11 @@ export default function Signup() {
             name="password"
             onChange={handleChange}
           />
+
           <button type="submit">S'inscrire</button>
+          <p>
+            Vous avez déjà un compte ? <Link to="/login">Se connecter</Link>
+          </p>
         </form>
       </div>
     </div>

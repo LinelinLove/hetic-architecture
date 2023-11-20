@@ -54,13 +54,6 @@ export default function Header() {
           ) : (
             ""
           )}
-          {isUserLoggedIn ? (
-            ""
-          ) : (
-            <li>
-              <Link to="/signup">S'inscrire</Link>
-            </li>
-          )}
           <li>
             {isUserLoggedIn ? (
               <Link onClick={handleSignOut}>Se déconnecter</Link>
@@ -68,6 +61,13 @@ export default function Header() {
               <Link to="/login">Se connecter</Link>
             )}
           </li>
+          {isUserLoggedIn ? (
+            ""
+          ) : (
+            <li>
+              <Link to="/signup">S'inscrire</Link>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

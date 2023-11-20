@@ -1,5 +1,5 @@
 import InputComponent from "../components/atoms/InputComponent";
-import "./Signup.css";
+import { Link } from "react-router-dom";
 
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -12,7 +12,9 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -28,10 +30,19 @@ export default function Login() {
     }
   };
 
+  const handleEnterKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSignIn(e);
+    }
+  };
+
   return (
     <div className="gap-10 flex flex-col items-center p-4">
-      <div className="bg-black gap-10 flex flex-col items-center p-10 rounded-xl mt-16">
-        <h1>Se connecter à Eiga</h1>
+      <form
+        onKeyDown={handleEnterKeyPress}
+        className="bg-black gap-10 flex flex-col items-center p-10 rounded-xl mt-16"
+      >
+        <h1>Connexion à Eiga</h1>
         <InputComponent
           type="text"
           placeholder="E-mail"
@@ -46,8 +57,14 @@ export default function Login() {
           name="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button onClick={handleSignIn}>Se connecter</button>
-      </div>
+        <button type="submit" onClick={handleSignIn}>
+          Connexion
+        </button>
+        <p>
+          Vous n'avez pas encore de compte ?{" "}
+          <Link to="/signup">S'inscrire</Link>
+        </p>
+      </form>
     </div>
   );
 }

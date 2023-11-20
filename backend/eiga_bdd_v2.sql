@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 19 nov. 2023 à 22:13
+-- Généré le : lun. 20 nov. 2023 à 19:37
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `firstname` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `lasname` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `lastname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `mail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `telephone` int DEFAULT NULL,
   `pwd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -87,7 +87,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `birthday` date DEFAULT NULL,
   `role` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `firstname`, `lastname`, `mail`, `telephone`, `pwd`, `gender`, `uid_firebase`, `profil_picture`, `birthday`, `role`) VALUES
+(23, 'linette', 'chris', 'lin', 'line@live.fr', NULL, '$2y$10$YecbChrg4DnvJOPXKGrBC.CCpPlDv0TBsjKugzmDMD9iEqcp8bR5K', NULL, 'Ig7BsUcoAqYJ0e9VSMnlPFAJrOq1', NULL, NULL, NULL),
+(24, 'test', NULL, NULL, 'test@test.to', NULL, '$2y$10$G2Zg9lYmIZbPGTErOBNpl.TfBNfZ12Vqy2GjjnHuByxs8kgE9V51G', NULL, 'xr1MWqPTA1MnEonNlCpHDTajV3K3', NULL, NULL, NULL),
+(25, 'testredirection', NULL, NULL, 'test2@test.to', NULL, '$2y$10$Dr3cbgG8fTIztPGvHSoGjul5dZgHZRViTMwkOZlQvabXx8OlA8Tg6', NULL, 'qedsjdDeAJVkBKaiZkusMBE7afy1', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 

@@ -1,22 +1,15 @@
 <?php
-// api/register.php
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Récupérez les données du formulaire
-    // $username = $_POST['username'];
-    // $email = $_POST['email'];
-    // $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $data = json_decode(file_get_contents('php://input'), true);
 
     error_log('Received data: ' . print_r($data, true));
     $username = $data['username'];
     $email = $data['email'];
-    // $password = $data['password'];
     $password = password_hash($data['password'], PASSWORD_BCRYPT);
 
     // Ajoutez la récupération de l'UID depuis Firebase

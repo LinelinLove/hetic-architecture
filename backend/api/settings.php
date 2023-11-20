@@ -25,35 +25,38 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     }
 }
 
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $data = json_decode(file_get_contents('php://input'), true);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents('php://input'), true);
 
-//     error_log('Received data: ' . print_r($data, true));
+    //     error_log('Received data: ' . print_r($data, true));
 
-//     $userId = $data['userId'];
-//     $lastname = $data['lastname'];
-//     $firstname = $data['firstname'];
-//     $telephone = $data['telephone'];
-//     $birthday = $data['birthday'];
-//     $gender = $data['gender'];
-//     $profil_picture = $data['profil_picture'];
+    $userId = $data['userId'];
+    $lastname = $data['lastname'];
+    $firstname = $data['firstname'];
+    $telephone = $data['telephone'];
+    $birthday = $data['birthday'];
+    $gender = $data['gender'];
+    $profil_picture = $data['profil_picture'];
 
-//     // Insérez les données dans la base de données
-//     require_once('../Config/DatabaseManager.php');
+    // Insérez les données dans la base de données
+    require_once('../Config/DatabaseManager.php');
 
-//     try {
-//         $db = \App\Config\DatabaseManager::getDB();
+    try {
+        $db = \App\Config\DatabaseManager::getDB();
 
-//         // Utilisez UPDATE pour mettre à jour les champs spécifiques pour un utilisateur existant
-//         $stmt = $db->prepare('UPDATE user SET lastname=?, firstname=?, telephone=?, birthday=?, gender=?, profil_picture=? WHERE uid_firebase=?');
-//         $stmt->execute([$lastname, $firstname, $telephone, $birthday, $gender, $profil_picture, $userId]);
+        // Utilisez UPDATE pour mettre à jour les champs spécifiques pour un utilisateur existant
+        $stmt = $db->prepare('UPDATE user SET lastname=?, firstname=?, telephone=?, birthday=?, gender=?, profil_picture=? WHERE uid_firebase=?');
+        $stmt->execute([$lastname, $firstname, $telephone, $birthday, $gender, $profil_picture, $userId]);
 
-//         echo json_encode(['status' => 'success', 'message' => 'User data updated successfully ']);
-//     } catch (\PDOException $e) {
-//         error_log('Error updating user data: ' . $e->getMessage());
+        // echo json_encode(['status' => 'success', 'message' => 'User data updated successfully ']);
+        echo json_encode(['status' => 'success', 'message' => $data]);
+    } catch (\PDOException $e) {
+        error_log('Error updating user data: ' . $e->getMessage());
 
-//         echo json_encode(['status' => 'error', 'message' => 'Error updating user data: ' . $e->getMessage()]);
-//     }
-// } else {
-//     echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
-// }
+        echo json_encode(['status' => 'error', 'message' => 'Error updating user data: ' . $e->getMessage()]);
+    }
+} else {
+    // http_response_code(405); // Méthode non autorisée
+    // exit('Invalid request method');
+    // echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+}

@@ -15,11 +15,19 @@ export default function Settings() {
   const [userData, setUserData] = useState({});
   const userId = user ? user.uid : null;
 
+  // GET
   useEffect(() => {
     if (userId) {
       fetch(
         import.meta.env.VITE_REACT_APP_API_URL +
-          `hetic-architecture/backend/api/settings.php?userId=${userId}`
+          `hetic-architecture/backend/api/settings.php?userId=${userId}`,
+        {
+          method: "GET",
+          headers: {
+            // Ajoutez d'autres en-têtes si nécessaire
+            "Content-Type": "application/json",
+          },
+        }
       )
         .then((response) => response.json())
         .then((data) => {
@@ -32,13 +40,25 @@ export default function Settings() {
   }, [userId]);
 
   const [formValues, setFormValues] = useState({
-    lastname: userData.lastname ?? "",
-    firstname: userData.firstname ?? "",
-    telephone: userData.telephone ?? "",
-    gender: userData.gender ?? "",
-    birthday: userData.birthday ?? "",
-    profil_picture: userData.profil_picture ?? "",
+    lastname: "",
+    firstname: "",
+    telephone: "",
+    gender: "",
+    birthday: "",
+    profil_picture: "",
   });
+
+  // Mettez à jour formValues lorsque userData change
+  useEffect(() => {
+    setFormValues({
+      lastname: userData.lastname || "",
+      firstname: userData.firstname || "",
+      telephone: userData.telephone || "",
+      gender: userData.gender || "",
+      birthday: userData.birthday || "",
+      profil_picture: userData.profil_picture || "",
+    });
+  }, [userData]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -48,8 +68,19 @@ export default function Settings() {
     }));
   };
 
+  // POST
   const handleUpdate = (event) => {
     event.preventDefault();
+
+    const updatedData = Object.fromEntries(
+      Object.entries(formValues).map(([key, value]) => [
+        key,
+        value === "" ? null : value,
+      ])
+    );
+
+    // Ajouter userId à l'objet
+    updatedData.userId = userId;
 
     fetch(
       import.meta.env.VITE_REACT_APP_API_URL +
@@ -59,32 +90,12 @@ export default function Settings() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          userId: userId,
-          lastname: userData.lastname,
-          firstname: userData.firstname,
-          telephone: userData.telephone,
-          gender: userData.gender,
-          birthday: userData.birthday,
-          profil_picture: userData.profil_picture,
-        }),
+        body: JSON.stringify(updatedData),
       }
     )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        // Vérifier si la réponse n'est pas vide
-        if (response.headers.get("content-length") === "0") {
-          // Si la réponse est vide, retournez un objet vide ou la réponse brute selon votre besoin
-          return {}; // Vous pouvez également retourner response.text() si vous avez besoin de la réponse brute
-        }
-        return response.json();
-      })
-      .then((data) => console.log(data))
-      .catch((error) =>
-        console.error("Erreur de mise à jour des données:", error)
-      );
+      .then((response) => response.json())
+      .then((data) => console.log(data)) // Vérifiez la réponse renvoyée par le serveur
+      .catch((error) => console.error("Erreur:", error));
   };
 
   const handleImageChange = (event) => {
@@ -110,18 +121,39 @@ export default function Settings() {
             name="profil_picture"
           />
 
-          <div className="flex flex-row justify-between w-full  gap-8">
+          <div className="flex flex-row justify-between w-full gap-8">
             <div className="flex gap-2">
-              <input type="radio" id="femme" name="gender" value="Femme" />
+              <input
+                type="radio"
+                id="femme"
+                name="gender"
+                value="Femme"
+                onChange={handleInputChange}
+                checked={formValues.gender === "Femme"}
+              />
               <label htmlFor="femme">Femme</label>
             </div>
             <div className="flex gap-2">
-              <input type="radio" id="homme" name="gender" value="Homme" />
+              <input
+                type="radio"
+                id="homme"
+                name="gender"
+                value="Homme"
+                onChange={handleInputChange}
+                checked={formValues.gender === "Homme"}
+              />
               <label htmlFor="homme">Homme</label>
             </div>
 
             <div className="flex gap-2">
-              <input type="radio" id="autre" name="gender" value="autre" />
+              <input
+                type="radio"
+                id="autre"
+                name="gender"
+                value="autre"
+                onChange={handleInputChange}
+                checked={formValues.gender === "autre"}
+              />
               <label htmlFor="autre">Autre(s)</label>
             </div>
           </div>
@@ -130,8 +162,7 @@ export default function Settings() {
             type="text"
             placeholder="Pseudo"
             name="username"
-            defaultValue={userData.username ?? ""}
-            onChange={handleInputChange}
+            defaultValue={userData.username}
             className="w-full leading-10 px-4 rounded"
             disabled
           />
@@ -139,8 +170,7 @@ export default function Settings() {
             type="email"
             placeholder="E-mail"
             name="email"
-            onChange={handleInputChange}
-            defaultValue={userData.mail ?? ""}
+            defaultValue={userData.mail}
             className="w-full leading-10 px-4 rounded"
             disabled
           />
@@ -148,24 +178,27 @@ export default function Settings() {
             type="text"
             placeholder="Nom"
             name="lastname"
+            maxLength={30}
             onChange={handleInputChange}
-            defaultValue={userData.lastname ?? ""}
+            value={formValues.lastname}
             className="w-full leading-10 px-4 rounded"
           />
           <input
             type="text"
             placeholder="Prénom"
             name="firstname"
+            maxLength={30}
             onChange={handleInputChange}
-            defaultValue={userData.firstname ?? ""}
+            value={formValues.firstname}
             className="w-full leading-10 px-4 rounded"
           />
           <input
-            type="telephone"
+            type="tel"
             placeholder="Téléphone"
             name="telephone"
+            maxLength={12}
             onChange={handleInputChange}
-            defaultValue={userData.telephone ?? ""}
+            value={formValues.telephone}
             className="w-full leading-10 px-4 rounded"
           />
           <label className="wrapper">
@@ -174,7 +207,7 @@ export default function Settings() {
               required="required"
               className="w-full leading-10 px-4 rounded"
               onChange={handleInputChange}
-              defaultValue={userData.birthday ?? ""}
+              value={formValues.birthday}
               name="birthday"
             />
             <span></span>

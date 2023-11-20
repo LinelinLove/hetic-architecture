@@ -1,21 +1,13 @@
 // Header.js
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { app } from "../firebaseConfig";
+import { useAuth } from "../pages/AuthContext";
 const auth = getAuth(app);
 
 export default function Header() {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsUserLoggedIn(!!user); // Met à jour l'état en fonction de la présence de l'utilisateur
-    });
-
-    // Nettoyez l'écouteur lorsque le composant est démonté
-    return () => unsubscribe();
-  }, []); // Assurez-vous de déclencher cet effet une seule fois lors du montage
+  const { isUserLoggedIn } = useAuth();
 
   const handleSignOut = async () => {
     try {

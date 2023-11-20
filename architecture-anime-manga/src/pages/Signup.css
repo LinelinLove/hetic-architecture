@@ -21,3 +21,7 @@ label.wrapper {
 .wrapper {
   width: 100%;
 }
+
+input[type="date"] {
+  cursor: text;
+}

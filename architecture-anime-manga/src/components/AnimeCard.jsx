@@ -1,12 +1,6 @@
 import React from "react";
 
-export const AnimeCard = ({
-  animelist,
-  setAnimeInfo,
-  animeComponent,
-  handleList,
-}) => {
-  // const AddToList = animeComponent;s
+export const AnimeCard = ({ animelist, setAnimeInfo }) => {
   return (
     <>
       {animelist
@@ -24,14 +18,6 @@ export const AnimeCard = ({
                 />
                 <div className="text-center">
                   <h4>{anime.title}</h4>
-                  <div className="overlay" onClick={() => handleList(anime)}>
-                    {/* <h4>{anime.title_japanese}</h4> */}
-                    {/* <h3>SYNOPSIS</h3>
-                    <div className="synopsis">
-                      <p>{anime.synopsis}</p>
-                    </div> */}
-                    {/* <AddToList /> */}
-                  </div>
                 </div>
               </div>
             );

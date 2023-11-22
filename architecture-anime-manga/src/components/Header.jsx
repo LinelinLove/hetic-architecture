@@ -27,18 +27,10 @@ export default function Header() {
         </div>
         <ul className="flex flex-row gap-8 items-center">
           <li>
-            <input
-              type="text"
-              placeholder="Rechercher un anime"
-              className="p-2 rounded"
-              id="search"
-            />
-          </li>
-          <li>
             <Link to="/">Accueil</Link>
           </li>
           <li>
-            <Link to="/listAnimes">Liste des animes</Link>
+            <Link to="/listAnimes">Rechercher un anime</Link>
           </li>
           {isUserLoggedIn ? (
             <li>

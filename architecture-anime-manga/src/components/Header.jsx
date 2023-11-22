@@ -25,7 +25,15 @@ export default function Header() {
         <div>
           <Link to="/">Eiga Logo</Link>
         </div>
-        <ul className="flex flex-row gap-8">
+        <ul className="flex flex-row gap-8 items-center">
+          <li>
+            <input
+              type="text"
+              placeholder="Rechercher un anime"
+              className="p-2 rounded"
+              id="search"
+            />
+          </li>
           <li>
             <Link to="/">Accueil</Link>
           </li>

@@ -119,18 +119,75 @@ export default function Profil() {
       </div>
 
       <div style={{ display: selectedTab === "favoris" ? "block" : "none" }}>
-        Ici vous trouverez les favoris
+        <p>Ici vous trouverez les favoris</p>
+        <p>Ici vous trouverez les favoris</p>
+        <p>Ici vous trouverez les favoris</p>
+        <p>Ici vous trouverez les favoris</p>
+        <p>Ici vous trouverez les favoris</p>
+        <p>Ici vous trouverez les favoris</p>
+        <p>Ici vous trouverez les favoris</p>
       </div>
       <div style={{ display: selectedTab === "watchlist" ? "block" : "none" }}>
-        Ici vous trouverez la watchlist
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
+        <p>Ici vous trouverez la watchlist</p>
       </div>
       <div style={{ display: selectedTab === "note" ? "block" : "none" }}>
-        Ici vous trouverez les animes que {userData.username} a notés
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
       </div>
       <div
         style={{ display: selectedTab === "commentaire" ? "block" : "none" }}
       >
-        Ici vous trouverez les animes que {userData.username} a commentés
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
       </div>
     </div>
 

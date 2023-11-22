@@ -70,7 +70,7 @@ export default function Profil() {
             <img
               src={`${userData.profil_picture}`}
               alt="Profil"
-              className="w-32 h-32 self-start"
+              className="w-48 h-48 self-start object-cover"
             />
           )}
         </div>

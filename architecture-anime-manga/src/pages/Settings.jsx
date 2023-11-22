@@ -126,7 +126,7 @@ export default function Settings() {
           <img
             src={`${formValues.profil_picture}`}
             alt="Profil"
-            className="w-32 h-32 self-start"
+            className="w-32 h-32 self-start object-cover"
           />
         )}
         <form className="flex flex-col items-center gap-4 w-full">

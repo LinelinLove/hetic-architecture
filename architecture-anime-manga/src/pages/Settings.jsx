@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./Signup.css";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+// import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useAuth } from "../pages/AuthContext";
 
 export default function Settings() {
@@ -45,7 +45,7 @@ export default function Settings() {
     firstname: "",
     telephone: "",
     gender: "",
-    birthday: "",
+    birthdate: "",
     profil_picture: "",
   });
 
@@ -56,7 +56,7 @@ export default function Settings() {
       firstname: userData.firstname || "",
       telephone: userData.telephone || "",
       gender: userData.gender || "",
-      birthday: userData.birthday || "",
+      birthdate: userData.birthdate || "",
       profil_picture: userData.profil_picture || "",
     });
   }, [userData]);
@@ -227,8 +227,8 @@ export default function Settings() {
               required="required"
               className="w-full leading-10 px-4 rounded"
               onChange={handleInputChange}
-              value={formValues.birthday}
-              name="birthday"
+              value={formValues.birthdate}
+              name="birthdate"
             />
             <span></span>
           </label>

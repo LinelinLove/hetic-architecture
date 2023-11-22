@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lastname = $data['lastname'];
     $firstname = $data['firstname'];
     $telephone = $data['telephone'];
-    $birthday = $data['birthday'];
+    $birthdate = $data['birthdate'];
     $gender = $data['gender'];
     $profil_picture = $data['profil_picture'];
 
@@ -45,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db = \App\Config\DatabaseManager::getDB();
 
         // Utilisez UPDATE pour mettre à jour les champs spécifiques pour un utilisateur existant
-        $stmt = $db->prepare('UPDATE user SET lastname=?, firstname=?, telephone=?, birthday=?, gender=?, profil_picture=? WHERE uid_firebase=?');
-        $stmt->execute([$lastname, $firstname, $telephone, $birthday, $gender, $profil_picture, $userId]);
+        $stmt = $db->prepare('UPDATE user SET lastname=?, firstname=?, telephone=?, birthdate=?, gender=?, profil_picture=? WHERE uid_firebase=?');
+        $stmt->execute([$lastname, $firstname, $telephone, $birthdate, $gender, $profil_picture, $userId]);
 
         // echo json_encode(['status' => 'success', 'message' => 'User data updated successfully ']);
         echo json_encode(['status' => 'success', 'message' => $data]);

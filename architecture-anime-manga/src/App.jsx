@@ -23,9 +23,12 @@ export default function App() {
           <div className="flex-1">
             <Routes>
               <Route path="/" element={<Home />} />
+
               <Route element={<PrivateRoute redirect="/login" />}>
                 <Route path="/profil" element={<Profil />} />
               </Route>
+              <Route path="/profil/:user_id" element={<Profil />} />
+
               <Route element={<PrivateRoute redirect="/login" />}>
                 <Route path="/settings" element={<Settings />} />
               </Route>

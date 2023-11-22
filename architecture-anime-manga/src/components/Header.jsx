@@ -1,6 +1,6 @@
 // Header.js
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../firebaseConfig";
 import { useAuth } from "../pages/AuthContext";
@@ -8,12 +8,15 @@ const auth = getAuth(app);
 
 export default function Header() {
   const { isUserLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
       await signOut(auth);
       console.log("User signed out successfully");
+
       // Vous pouvez rediriger l'utilisateur vers une page de connexion ou effectuer d'autres actions après la déconnexion.
+      navigate("/");
     } catch (error) {
       console.error("Error signing out:", error);
     }

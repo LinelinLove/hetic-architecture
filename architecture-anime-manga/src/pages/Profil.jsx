@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useAuth } from "../pages/AuthContext";
+import { useParams, Link } from "react-router-dom";
 
 export default function Profil() {
   const { user, isUserLoggedIn } = useAuth();
+  const { user_id } = useParams();
   useEffect(() => {
     if (isUserLoggedIn) {
       const uid = user ? user.uid : null;
@@ -12,17 +14,43 @@ export default function Profil() {
   const [userData, setUserData] = useState({});
   const userId = user ? user.uid : null;
   const [selectedTab, setSelectedTab] = useState("favoris");
+  const [age, setAge] = useState("");
+  const [userNotFound, setUserNotFound] = useState(false);
 
   // GET
   useEffect(() => {
-    if (userId) {
+    if (user_id) {
+      fetch(
+        import.meta.env.VITE_REACT_APP_API_URL +
+          `hetic-architecture/backend/api/users.php?userId=${user_id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && data.status == "error") {
+            setUserNotFound(true);
+          } else {
+            setUserData(data.data);
+            if (data.data.birthdate) {
+              setAge(calculateAge(data.data.birthdate));
+            }
+          }
+        })
+        .catch((error) =>
+          console.error("Erreur de récupération des données:", error)
+        );
+    } else {
       fetch(
         import.meta.env.VITE_REACT_APP_API_URL +
           `hetic-architecture/backend/api/settings.php?userId=${userId}`,
         {
           method: "GET",
           headers: {
-            // Ajoutez d'autres en-têtes si nécessaire
             "Content-Type": "application/json",
           },
         }
@@ -30,12 +58,15 @@ export default function Profil() {
         .then((response) => response.json())
         .then((data) => {
           setUserData(data.data);
+          if (data.data.birthdate) {
+            setAge(calculateAge(data.data.birthdate));
+          }
         })
         .catch((error) =>
           console.error("Erreur de récupération des données:", error)
         );
     }
-  }, [userId]);
+  }, [userId, user_id]);
 
   function calculateAge(dateOfBirth) {
     const birthDate = new Date(dateOfBirth);
@@ -43,7 +74,6 @@ export default function Profil() {
 
     let age = currentDate.getFullYear() - birthDate.getFullYear();
 
-    // Vérifier si l'anniversaire de cette année a déjà eu lieu
     const currentMonth = currentDate.getMonth();
     const birthMonth = birthDate.getMonth();
 
@@ -58,8 +88,13 @@ export default function Profil() {
     return age;
   }
 
-  const age = calculateAge(userData.birthdate);
-
+  if (userNotFound) {
+    return (
+      <div className="gap-4 flex flex-col items-start p-4">
+        <p>Cet utilisateur n'existe pas.</p>
+      </div>
+    );
+  }
   return (
     <div className="gap-4 flex flex-col items-start p-4">
       {/* <div className="bg-black gap-4 flex flex-col items-start p-10 rounded-xl mt-16"> */}
@@ -121,71 +156,18 @@ export default function Profil() {
       <div style={{ display: selectedTab === "favoris" ? "block" : "none" }}>
         <p>Ici vous trouverez les favoris</p>
         <p>Ici vous trouverez les favoris</p>
-        <p>Ici vous trouverez les favoris</p>
-        <p>Ici vous trouverez les favoris</p>
-        <p>Ici vous trouverez les favoris</p>
-        <p>Ici vous trouverez les favoris</p>
-        <p>Ici vous trouverez les favoris</p>
       </div>
       <div style={{ display: selectedTab === "watchlist" ? "block" : "none" }}>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
         <p>Ici vous trouverez la watchlist</p>
         <p>Ici vous trouverez la watchlist</p>
       </div>
       <div style={{ display: selectedTab === "note" ? "block" : "none" }}>
         <p>Ici vous trouverez les animes que {userData.username} a notés</p>
         <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
       </div>
       <div
         style={{ display: selectedTab === "commentaire" ? "block" : "none" }}
       >
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
         <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
         <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
       </div>

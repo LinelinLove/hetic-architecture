@@ -30,6 +30,7 @@ export default function ListAnimes() {
           placeholder="Rechercher un anime"
           onChange={(e) => setSearch(e.target.value)}
           className="p-2 rounded my-4 w-full"
+          id="search"
         />
       </div>
       <div className="grid grid-cols-grille gap-x-8 pr-4 gap-y-8 justify-between">

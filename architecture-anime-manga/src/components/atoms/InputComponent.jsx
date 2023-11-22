@@ -7,6 +7,7 @@ const InputComponent = ({
   name,
   onChange,
   minLength,
+  autoComplete,
 }) => {
   return (
     <input

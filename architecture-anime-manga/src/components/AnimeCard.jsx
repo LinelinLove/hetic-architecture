@@ -13,16 +13,16 @@ export const AnimeCard = ({
         ? animelist.map((anime, index) => {
             return (
               <div
-                className="w-[200px] bg-white flex flex-col justify-start"
+                className="w-[200px] flex flex-col justify-start gap-2"
                 key={index}
                 onClick={() => setAnimeInfo(anime)}
               >
                 <img
                   src={anime.images.jpg.large_image_url}
                   alt="animeImage"
-                  className="w-64 h-[285px] object-cover"
+                  className="w-64 h-[285px] object-cover rounded"
                 />
-                <div className="text-black text-center">
+                <div className="text-center">
                   <h4>{anime.title}</h4>
                   <div className="overlay" onClick={() => handleList(anime)}>
                     {/* <h4>{anime.title_japanese}</h4> */}

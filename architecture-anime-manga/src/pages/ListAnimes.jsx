@@ -42,29 +42,27 @@ export default function ListAnimes() {
 
   return (
     <div className="p-4">
-      <div className="header">
-        <div className="search-box">
-          <input
-            type="search"
-            placeholder="Rechercher un anime"
-            onChange={(e) => setSearch(e.target.value)}
-            className="p-2 rounded my-4 w-full"
-          />
-        </div>
+      <div className="search-box">
+        <input
+          type="search"
+          placeholder="Rechercher un anime"
+          onChange={(e) => setSearch(e.target.value)}
+          className="p-2 rounded my-4 w-full"
+        />
       </div>
 
-      <div className="container">
-        <div className="animeInfo">
-          {/* {animeInfo && <AnimeInfo animeInfo={animeInfo} />} */}
-        </div>
-        <div className="flex gap-4 flex-wrap">
-          <AnimeCard
-            animelist={animeData}
-            setAnimeInfo={setAnimeInfo}
-            handleList={(anime) => addTo(anime)}
-          />
-        </div>
+      {/* <div className="container"> */}
+      {/* <div className="animeInfo">
+          {animeInfo && <AnimeInfo animeInfo={animeInfo} />}
+        </div> */}
+      <div className="grid grid-cols-grille gap-x-8 pr-4 gap-y-8 justify-between">
+        <AnimeCard
+          animelist={animeData}
+          setAnimeInfo={setAnimeInfo}
+          handleList={(anime) => addTo(anime)}
+        />
       </div>
     </div>
+    // </div>
   );
 }

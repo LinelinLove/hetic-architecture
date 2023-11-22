@@ -4,7 +4,7 @@ import { AnimeCard } from "../components/AnimeCard";
 export default function ListAnimes() {
   const [search, setSearch] = useState("");
   const [animeData, setAnimeData] = useState();
-  const [animeInfo, setAnimeInfo] = useState();
+  // const [animeInfo, setAnimeInfo] = useState();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -34,7 +34,10 @@ export default function ListAnimes() {
         />
       </div>
       <div className="grid grid-cols-grille gap-x-8 pr-4 gap-y-8 justify-between">
-        <AnimeCard animelist={animeData} setAnimeInfo={setAnimeInfo} />
+        <AnimeCard
+          animelist={animeData}
+          // setAnimeInfo={setAnimeInfo}
+        />
       </div>
     </div>
   );

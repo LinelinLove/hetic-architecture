@@ -1,16 +1,11 @@
-// AnimeCard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export const AnimeCard = ({ animelist, setAnimeInfo }) => {
+export const AnimeCard = ({ animelist }) => {
   const navigate = useNavigate();
 
   const handleAnimeClick = (anime) => {
-    // Utilisez navigate pour rediriger l'utilisateur vers la page spécifique de l'anime
     navigate(`/anime/${anime.mal_id}`);
-
-    // Appeler la fonction setAnimeInfo pour mettre à jour les détails de l'anime
-    setAnimeInfo(anime);
   };
 
   return (

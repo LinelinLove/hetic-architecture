@@ -34,7 +34,8 @@ export default function App() {
               <Route path="/listAnimes" element={<ListAnimes />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/mentions" element={<Mentions />} />
-              <Route path="/anime" element={<Anime />} />
+              {/* <Route path="/anime" element={<Anime />} /> */}
+              <Route path="/anime/:anime_id" element={<Anime />} />
             </Routes>
           </div>
           <Footer />

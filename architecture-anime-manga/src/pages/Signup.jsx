@@ -102,6 +102,7 @@ export default function Signup() {
             placeholder="Mot de passe"
             required={true}
             name="password"
+            minLength={6}
             onChange={handleChange}
           />
 

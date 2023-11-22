@@ -13,6 +13,7 @@ export default function Settings() {
   }, [isUserLoggedIn, user]);
 
   const [userData, setUserData] = useState({});
+  const [imageFile, setImageFile] = useState(null);
   const userId = user ? user.uid : null;
 
   // GET
@@ -102,6 +103,16 @@ export default function Settings() {
     const file = event.target.files[0];
     if (file && file.size <= 4 * 1024 * 1024) {
       setImageFile(file);
+
+      // Convertir l'image en Blob
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormValues((prevValues) => ({
+          ...prevValues,
+          profil_picture: reader.result,
+        }));
+      };
+      reader.readAsDataURL(file);
     } else {
       alert("Veuillez sélectionner une image de moins de 4 Mo.");
     }
@@ -111,16 +122,25 @@ export default function Settings() {
     <div className="gap-10 flex flex-col items-center p-4">
       <div className="bg-black gap-10 flex flex-col items-center p-10 rounded-xl mt-16">
         <h1>Paramètres du compte</h1>
-
-        <form className="flex flex-col items-center gap-4 w-full">
-          <input
-            type="file"
-            accept="image/*"
-            // onChange={handleImageChange}
-            className="self-start"
-            name="profil_picture"
+        {userData.profil_picture && (
+          <img
+            src={`${formValues.profil_picture}`}
+            alt="Profil"
+            className="w-32 h-32 self-start"
           />
-
+        )}
+        <form className="flex flex-col items-center gap-4 w-full">
+          <div className="self-start">
+            <label htmlFor="profil_picture">Votre avatar : </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="self-start"
+              name="profil_picture"
+              id="profil_picture"
+            />
+          </div>
           <div className="flex flex-row justify-between w-full gap-8">
             <div className="flex gap-2">
               <input

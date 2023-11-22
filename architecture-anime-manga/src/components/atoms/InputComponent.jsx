@@ -1,6 +1,13 @@
 import React from "react";
 
-const InputComponent = ({ placeholder, type, required, name, onChange }) => {
+const InputComponent = ({
+  placeholder,
+  type,
+  required,
+  name,
+  onChange,
+  minLength,
+}) => {
   return (
     <input
       type={type}
@@ -10,6 +17,7 @@ const InputComponent = ({ placeholder, type, required, name, onChange }) => {
       className="w-full leading-10 px-4 rounded"
       required={required}
       onChange={onChange}
+      minLength={minLength}
     />
   );
 };

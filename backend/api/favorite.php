@@ -38,13 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $userId = $data['userId'];
     $animeId = $data['animeId'];
+    $animeTitle = $data['animeTitle'];
 
     require_once('../Config/DatabaseManager.php');
 
     try {
         $db = \App\Config\DatabaseManager::getDB();
-        $stmt = $db->prepare('INSERT INTO list_favorite (user_id, anime_id) VALUES (?, ?)');
-        $stmt->execute([$userId, $animeId]);
+        $stmt = $db->prepare('INSERT INTO list_favorite (user_id, anime_id, anime_title) VALUES (?, ?, ?)');
+        $stmt->execute([$userId, $animeId, $animeTitle]);
 
         echo json_encode(['status' => 'success', 'message' => $data]);
     } catch (\PDOException $e) {

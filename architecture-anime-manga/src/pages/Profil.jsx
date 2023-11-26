@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useAuth } from "../pages/AuthContext";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 export default function Profil() {
   const { user, isUserLoggedIn } = useAuth();
+
+  // si on recup un id dans la route
   const { user_id } = useParams();
+
   // useEffect(() => {
   //   if (isUserLoggedIn) {
   //     const uid = user ? user.uid : null;
@@ -16,7 +19,12 @@ export default function Profil() {
   const [selectedTab, setSelectedTab] = useState("favoris");
   const [age, setAge] = useState("");
   const [userNotFound, setUserNotFound] = useState(false);
-
+  const [getFavData, setGetFavData] = useState(null);
+  const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
+  const navigate = useNavigate();
+  const handleAnimeClick = (anime) => {
+    navigate(`/anime/${anime}`);
+  };
   // GET
   useEffect(() => {
     if (user_id) {
@@ -43,7 +51,8 @@ export default function Profil() {
         })
         .catch((error) =>
           console.error("Erreur de récupération des données:", error)
-        );
+        )
+        .finally(() => setIsUserDataLoaded(true));
     } else {
       fetch(
         import.meta.env.VITE_REACT_APP_API_URL +
@@ -64,9 +73,35 @@ export default function Profil() {
         })
         .catch((error) =>
           console.error("Erreur de récupération des données:", error)
-        );
+        )
+        .finally(() => setIsUserDataLoaded(true));
     }
   }, [userId, user_id]);
+
+  // fetch la liste des favoris
+  useEffect(() => {
+    if (isUserDataLoaded && userData !== undefined) {
+      fetch(
+        import.meta.env.VITE_REACT_APP_API_URL +
+          `hetic-architecture/backend/api/getFavoriteperUser.php?userId=${userData.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setGetFavData(data.data);
+          // console.log(userData.id);
+          // console.log(getFavData);
+        })
+        .catch((error) =>
+          console.error("Erreur de récupération des données:", error)
+        );
+    }
+  }, [isUserDataLoaded, userData]);
 
   function calculateAge(dateOfBirth) {
     const birthDate = new Date(dateOfBirth);
@@ -125,7 +160,8 @@ export default function Profil() {
             selectedTab === "favoris" ? "font-bold underline" : ""
           }`}
         >
-          Liste des favoris (??)
+          Liste des favoris
+          {getFavData != null ? ` (${getFavData.length})` : " (0)"}
         </p>
         <p
           onClick={() => setSelectedTab("watchlist")}
@@ -154,8 +190,21 @@ export default function Profil() {
       </div>
 
       <div style={{ display: selectedTab === "favoris" ? "block" : "none" }}>
-        <p>Ici vous trouverez les favoris</p>
-        <p>Ici vous trouverez les favoris</p>
+        {getFavData != null ? (
+          <div>
+            {getFavData.map((item, index) => (
+              <p
+                onClick={() => handleAnimeClick(item.anime_id)}
+                key={index}
+                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:text-blue-500 w-fit"
+              >
+                {item.anime_title}
+              </p>
+            ))}
+          </div>
+        ) : (
+          `La liste de favoris de ${userData.username} est vide pour le moment !`
+        )}
       </div>
       <div style={{ display: selectedTab === "watchlist" ? "block" : "none" }}>
         <p>Ici vous trouverez la watchlist</p>

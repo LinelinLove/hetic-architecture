@@ -6,16 +6,16 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
-    $id = $_GET["userId"];
+    $userId = $_GET["userId"];
 
     require_once('../Config/DatabaseManager.php');
     $db = \App\Config\DatabaseManager::getDB();
 
-    $sql = "SELECT id, username, firstname, lastname, gender, profil_picture, birthdate FROM user WHERE id = :id";
+    $sql = "SELECT * FROM list_favorite WHERE user_id = :user_id";
     $stmt = $db->prepare($sql);
-    $stmt->bindParam(":id", $id);
+    $stmt->bindParam(":user_id", $userId);
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if ($result) {
         echo json_encode(["status" => "success", "data" => $result]);

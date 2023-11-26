@@ -59,11 +59,11 @@ const Anime = () => {
         );
 
         const favoriteData = await favoriteRes.json();
-        console.log(user_id, data.data.mal_id);
+        // console.log(user_id, data.data.mal_id);
 
         if (favoriteData && favoriteData.status === "error") {
           setIsfavorite(false);
-          console.log(favoriteData);
+          // console.log(favoriteData);
         } else {
           setIsfavorite(true);
         }
@@ -102,6 +102,7 @@ const Anime = () => {
     const updatedData = {
       userId: user_id,
       animeId: animeInfo.data.mal_id,
+      animeTitle: animeInfo.data.title,
     };
     fetch(
       import.meta.env.VITE_REACT_APP_API_URL +

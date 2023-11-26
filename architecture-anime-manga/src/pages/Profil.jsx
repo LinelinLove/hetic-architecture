@@ -5,11 +5,11 @@ import { useParams, Link } from "react-router-dom";
 export default function Profil() {
   const { user, isUserLoggedIn } = useAuth();
   const { user_id } = useParams();
-  useEffect(() => {
-    if (isUserLoggedIn) {
-      const uid = user ? user.uid : null;
-    }
-  }, [isUserLoggedIn, user]);
+  // useEffect(() => {
+  //   if (isUserLoggedIn) {
+  //     const uid = user ? user.uid : null;
+  //   }
+  // }, [isUserLoggedIn, user]);
 
   const [userData, setUserData] = useState({});
   const userId = user ? user.uid : null;

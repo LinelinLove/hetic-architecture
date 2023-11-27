@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../pages/AuthContext";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
@@ -9,6 +9,9 @@ const Anime = () => {
   const { anime_id } = useParams(); // Utilisez useParams pour obtenir l'ID de l'URL
   const [animeInfo, setAnimeInfo] = useState(null);
   const [isFavorite, setIsfavorite] = useState(null);
+  const [isComment, setIsComment] = useState(null);
+  const [allComments, setAllComment] = useState(null);
+
   const [user_id, setUser_id] = useState(null);
 
   const { user, isUserLoggedIn } = useAuth();
@@ -43,7 +46,7 @@ const Anime = () => {
           // console.log(user_id);
         }
 
-        // Maintenant que animeInfo est mis à jour, nous pouvons utiliser son contenu ici
+        // GET if this anime the favorite of the user
         const favoriteRes = await fetch(
           `${
             import.meta.env.VITE_REACT_APP_API_URL
@@ -66,6 +69,31 @@ const Anime = () => {
           // console.log(favoriteData);
         } else {
           setIsfavorite(true);
+        }
+
+        // GET comments
+        const commentsRes = await fetch(
+          `${
+            import.meta.env.VITE_REACT_APP_API_URL
+          }hetic-architecture/backend/api/comments.php?animeId=${
+            data.data.mal_id
+          }`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const commentsData = await commentsRes.json();
+        // console.log(commentsData);
+        if (commentsData && commentsData.status === "error") {
+          setIsComment(false);
+        } else {
+          setIsComment(true);
+          setAllComment(commentsData.data);
+          // console.log(allComments);
         }
       } catch (error) {
         console.error(
@@ -95,7 +123,7 @@ const Anime = () => {
     setNbEpisode(newNbEpisode);
   };
 
-  // POST
+  // POST fav
   const postFavorite = (event) => {
     event.preventDefault();
 
@@ -121,7 +149,7 @@ const Anime = () => {
     setIsfavorite(true);
   };
 
-  // DELETE
+  // DELETE fav
   const deleteFavorite = (event) => {
     event.preventDefault();
 
@@ -144,6 +172,69 @@ const Anime = () => {
       .then((data) => console.log(data)) // Vérifiez la réponse renvoyée par le serveur
       .catch((error) => console.error("Erreur:", error));
     setIsfavorite(false);
+  };
+
+  // POST comment
+  const postComment = (event) => {
+    event.preventDefault();
+
+    const commentContent = document.querySelector("textarea").value;
+
+    if (commentContent.length < 3 || commentContent.length > 1024) {
+      alert("La longueur du commentaire doit être entre 3 et 1024 caractères.");
+      return;
+    }
+
+    const updatedData = {
+      userId: user_id,
+      animeId: animeInfo.data.mal_id,
+      animeTitle: animeInfo.data.title,
+      comment: commentContent,
+    };
+
+    // Effectuer le POST du commentaire
+    fetch(
+      import.meta.env.VITE_REACT_APP_API_URL +
+        `hetic-architecture/backend/api/comments.php`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        document.querySelector("textarea").value = "";
+
+        // Si le POST est réussi, effectuer le GET pour récupérer la liste mise à jour des commentaires
+        fetch(
+          `${
+            import.meta.env.VITE_REACT_APP_API_URL
+          }hetic-architecture/backend/api/comments.php?animeId=${
+            animeInfo.data.mal_id
+          }`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((response) => response.json())
+          .then((commentsData) => {
+            if (commentsData && commentsData.status === "error") {
+              setIsComment(false);
+            } else {
+              setIsComment(true);
+              setAllComment(commentsData.data);
+            }
+          })
+          .catch((error) => console.error("Erreur:", error));
+      })
+      .catch((error) => console.error("Erreur:", error));
   };
 
   if (!animeInfo) {
@@ -185,7 +276,6 @@ const Anime = () => {
           ""
         )}
         <div>
-          {/* soit l'un soit l'autre */}
           {isUserLoggedIn ? (
             <div>
               {!isFavorite ? (
@@ -252,30 +342,43 @@ const Anime = () => {
               rows="4"
               placeholder={`J'ai adoré l'anime ${animeInfo.data.title}...`}
               className="rounded p-2"
+              maxLength={1024}
+              minLength={3}
             ></textarea>
-            <button>Envoyer</button>
+            <button onClick={postComment}>Envoyer</button>
           </div>
         ) : (
           ""
         )}
-        <div>
-          <div className="flex flex-row gap-x-4 mt-8">
-            <img
-              src={animeInfo.data.images.jpg.large_image_url}
-              alt="animeImage"
-              className="h-[40px] w-[40px] object-cover rounded"
-            />
-            <div className="flex flex-col bg-red-200 w-full rounded p-2 gap-2">
-              <p>#1 Par Pseudodelapersonne le 25/11/2023 à 13h40</p>
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Possimus dolor culpa quos aspernatur dolorum perferendis in id
-                pariatur et impedit ullam commodi maiores soluta exercitationem
-                perspiciatis repellat corrupti, eum dolore.
-              </p>
+
+        {isComment ? (
+          allComments.map((comment, index) => (
+            <div key={comment.id}>
+              <div className="flex flex-row gap-x-4 mt-8">
+                <Link to={`/profil/${comment.user_id}`}>
+                  <img
+                    src={comment.profil_picture}
+                    alt="animeImage"
+                    className="h-[72px] w-[72px] object-cover rounded"
+                  />
+                </Link>
+                <div className="flex flex-col bg-black w-full rounded p-2 gap-2">
+                  <p>
+                    #{index + 1} Par{" "}
+                    <Link to={`/profil/${comment.user_id}`}>
+                      {comment.username}
+                    </Link>{" "}
+                    le {comment.date.split(" ")[0]} à{" "}
+                    {comment.date.split(" ")[1]}
+                  </p>
+                  <p>{comment.comment}</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          ))
+        ) : (
+          <p>Pas de commentaire pour le moment !</p>
+        )}
       </div>
     </div>
   );

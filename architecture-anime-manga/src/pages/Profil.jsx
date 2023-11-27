@@ -9,12 +9,6 @@ export default function Profil() {
   // si on recup un id dans la route
   const { user_id } = useParams();
 
-  // useEffect(() => {
-  //   if (isUserLoggedIn) {
-  //     const uid = user ? user.uid : null;
-  //   }
-  // }, [isUserLoggedIn, user]);
-
   const [userData, setUserData] = useState({});
   const [age, setAge] = useState("");
   const userId = user ? user.uid : null;
@@ -24,6 +18,7 @@ export default function Profil() {
   const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
   const [getFavData, setGetFavData] = useState(null);
   const [getCommentsData, setGetCommentsData] = useState(null);
+  const [getNoteData, setGetNoteData] = useState(null);
 
   const handleAnimeClick = (anime) => {
     navigate(`/anime/${anime}`);
@@ -98,8 +93,6 @@ export default function Profil() {
         .then((response) => response.json())
         .then((data) => {
           setGetFavData(data.data);
-          // console.log(userData.id);
-          // console.log(getFavData);
         })
         .catch((error) =>
           console.error("Erreur de récupération des données:", error)
@@ -123,8 +116,29 @@ export default function Profil() {
         .catch((error) =>
           console.error("Erreur de récupération des données:", error)
         );
+
+      // fetch les animes ou a mis note
+      fetch(
+        import.meta.env.VITE_REACT_APP_API_URL +
+          `hetic-architecture/backend/api/getNotePerUser.php?userId=${userData.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setGetNoteData(data.data);
+        })
+        .catch((error) =>
+          console.error("Erreur de récupération des données:", error)
+        );
     }
   }, [isUserDataLoaded, userData]);
+
+  console.log(getNoteData);
 
   function calculateAge(dateOfBirth) {
     const birthDate = new Date(dateOfBirth);
@@ -200,7 +214,11 @@ export default function Profil() {
             selectedTab === "note" ? "font-bold underline" : ""
           }`}
         >
-          Note (??)
+          {getNoteData != null
+            ? `Note${getNoteData.length !== 1 ? "s" : ""} (${
+                getNoteData.length
+              })`
+            : "Notes (0)"}
         </p>
         <p
           onClick={() => setSelectedTab("commentaire")}
@@ -235,8 +253,22 @@ export default function Profil() {
         <p>Ici vous trouverez la watchlist</p>
       </div>
       <div style={{ display: selectedTab === "note" ? "block" : "none" }}>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a notés</p>
+        {getNoteData != null ? (
+          <div>
+            {getNoteData.map((item, index) => (
+              <p
+                onClick={() => handleAnimeClick(item.anime_id)}
+                key={index}
+                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:text-blue-500 w-fit flex flex-row gap-x-4"
+              >
+                <span className="w-[45px] text-right">{item.note}/10</span>
+                <span>{item.anime_title}</span>
+              </p>
+            ))}
+          </div>
+        ) : (
+          `La liste de favoris de ${userData.username} est vide pour le moment !`
+        )}
       </div>
       <div
         style={{

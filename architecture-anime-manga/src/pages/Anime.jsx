@@ -381,7 +381,9 @@ const Anime = () => {
             />
             <p>/ 10</p>
             <button onClick={postNote}>Valider</button>
-            {userNote ? `Vous avez deja mis une note à cet anime` : "Pas noté"}
+            {userNote
+              ? `Vous avez deja mis une note à cet anime`
+              : "Vous n'avez pas encore noté cet anime"}
           </div>
         ) : (
           ""

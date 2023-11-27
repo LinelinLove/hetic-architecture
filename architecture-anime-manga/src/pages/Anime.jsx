@@ -24,6 +24,13 @@ const Anime = () => {
 
   const userId = user ? user.uid : null;
 
+  const [status, setStatus] = useState("");
+
+  const handleStatusChange = (event) => {
+    // Mettre à jour la valeur de l'état avec la valeur sélectionnée
+    setStatus(event.target.value);
+  };
+
   const [note, setNote] = useState("");
   const [nbepisode, setNbEpisode] = useState("");
 
@@ -250,7 +257,6 @@ const Anime = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         document.querySelector("textarea").value = "";
 
         // Si le POST est réussi, effectuer le GET pour récupérer la liste mise à jour des commentaires
@@ -337,6 +343,62 @@ const Anime = () => {
       .catch((error) => console.error("Erreur:", error));
   };
 
+  // POST status
+  const postStatus = (event) => {
+    event.preventDefault();
+
+    const updatedData = {
+      userId: user_id,
+      animeId: animeInfo.data.mal_id,
+      animeTitle: animeInfo.data.title,
+      status: status,
+    };
+
+    // Effectuer le POST du commentaire
+    fetch(
+      import.meta.env.VITE_REACT_APP_API_URL +
+        `hetic-architecture/backend/api/watchlist.php`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+
+        // Si le POST est réussi, effectuer le GET pour récupérer la liste mise à jour des commentaires
+        // fetch(
+        //   `${
+        //     import.meta.env.VITE_REACT_APP_API_URL
+        //   }hetic-architecture/backend/api/note.php?animeId=${
+        //     animeInfo.data.mal_id
+        //   }`,
+        //   {
+        //     method: "GET",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //   }
+        // )
+        //   .then((response) => response.json())
+        //   .then((noteData) => {
+        //     if (noteData && noteData.status === "error") {
+        //       setIsNote(false);
+        //     } else {
+        //       setIsNote(true);
+        //       console.log(noteData.data);
+        //       setGetNote(noteData.data);
+        //     }
+        //   })
+        //   .catch((error) => console.error("Erreur:", error));
+      })
+      .catch((error) => console.error("Erreur:", error));
+  };
+
   if (!animeInfo) {
     return <div>Chargement...</div>;
   }
@@ -408,13 +470,18 @@ const Anime = () => {
         {isUserLoggedIn ? (
           <div className="flex flex-row gap-x-2 items-center">
             <label htmlFor="status-anime">Statut : </label>
-            <select name="status-anime" id="status-anime">
+            <select
+              name="status-anime"
+              id="status-anime"
+              onClick={handleStatusChange}
+            >
               <option value="">--</option>
               <option value="finished">Terminé</option>
               <option value="towatch">A voir</option>
               <option value="giveup">Abandonné</option>
               <option value="ongoing">En cours</option>
             </select>
+            <button onClick={postStatus}>Valider</button>
           </div>
         ) : (
           ""

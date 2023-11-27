@@ -26,7 +26,14 @@ export default function Header() {
     <header>
       <nav className="flex flex-row place-content-between bg-blue-100 text-black p-4">
         <div>
-          <Link to="/">Eiga Logo</Link>
+          <Link to="/" className="flex flex-row gap-x-4 items-center">
+            <img
+              src="/kitsune-kitsune-png-removebg-preview.png"
+              alt=""
+              className="w-[50px] h-[50px]"
+            />
+            <span className="text-3xl">Eiga Logo</span>
+          </Link>
         </div>
         <ul className="flex flex-row gap-8 items-center">
           <li>

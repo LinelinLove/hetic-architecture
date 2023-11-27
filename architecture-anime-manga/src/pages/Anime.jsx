@@ -14,11 +14,32 @@ const Anime = () => {
   const [getNote, setGetNote] = useState(null);
   const [allComments, setAllComment] = useState(null);
 
+  const [isUserNote, setIsUserNote] = useState(null);
+
+  const [userNote, setUserNote] = useState(null);
+
   const [user_id, setUser_id] = useState(null);
 
   const { user, isUserLoggedIn } = useAuth();
 
   const userId = user ? user.uid : null;
+
+  const [note, setNote] = useState("");
+  const [nbepisode, setNbEpisode] = useState("");
+
+  const handleNoteChange = (event) => {
+    // Assurez-vous que la note est dans la plage spécifiée (entre 0 et 10)
+    const newNote = Math.max(1, Math.min(10, event.target.value));
+    setNote(newNote);
+  };
+
+  const handleEpisodeChange = (event) => {
+    const newNbEpisode = Math.max(
+      1,
+      Math.min(animeInfo.data.episodes, event.target.value)
+    );
+    setNbEpisode(newNbEpisode);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,8 +47,6 @@ const Anime = () => {
         const res = await fetch(`https://api.jikan.moe/v4/anime/${anime_id}`);
         const data = await res.json();
         setAnimeInfo(data);
-
-        // console.log(userId);
 
         const getUserId = await fetch(
           import.meta.env.VITE_REACT_APP_API_URL +
@@ -98,7 +117,7 @@ const Anime = () => {
           // console.log(allComments);
         }
 
-        // GET note
+        // GET note general
         const getNote = await fetch(
           `${
             import.meta.env.VITE_REACT_APP_API_URL
@@ -121,6 +140,38 @@ const Anime = () => {
           setIsNote(true);
           setGetNote(noteData.data);
         }
+
+        // GET note de l'user
+        const getNoteUser = await fetch(
+          `${
+            import.meta.env.VITE_REACT_APP_API_URL
+          }hetic-architecture/backend/api/getNotePerUserAnime.php?userId=${user_id}&animeId=${
+            data.data.mal_id
+          }`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const noteDataUser = await getNoteUser.json();
+        // console.log(commentsData);
+        if (noteDataUser && noteDataUser.status === "error") {
+          setIsUserNote(false);
+        } else {
+          setIsUserNote(true);
+          setUserNote(noteDataUser);
+          // if (userNote !== null) {
+          //   if (note === "") {
+          //     setNote(userNote.data.note);
+          //     console.log("ok");
+          //   } else {
+          //     console.log("chai pas");
+          //   }
+          // }
+        }
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des données de l'anime",
@@ -131,23 +182,6 @@ const Anime = () => {
 
     fetchData();
   }, [anime_id, userId, user_id]);
-
-  const [note, setNote] = useState("");
-  const [nbepisode, setNbEpisode] = useState("");
-
-  const handleNoteChange = (event) => {
-    // Assurez-vous que la note est dans la plage spécifiée (entre 0 et 10)
-    const newNote = Math.max(1, Math.min(10, event.target.value));
-    setNote(newNote);
-  };
-
-  const handleEpisodeChange = (event) => {
-    const newNbEpisode = Math.max(
-      1,
-      Math.min(animeInfo.data.episodes, event.target.value)
-    );
-    setNbEpisode(newNbEpisode);
-  };
 
   // POST fav
   const postFavorite = (event) => {
@@ -357,7 +391,7 @@ const Anime = () => {
               type="number"
               id="note"
               name="note"
-              value={note}
+              value={note || ""}
               min="1"
               max="10"
               step="1"
@@ -365,6 +399,7 @@ const Anime = () => {
             />
             <p>/ 10</p>
             <button onClick={postNote}>Valider</button>
+            {userNote ? `Vous avez deja mis une note à cet anime` : "Pas noté"}
           </div>
         ) : (
           ""

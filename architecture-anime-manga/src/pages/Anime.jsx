@@ -10,6 +10,8 @@ const Anime = () => {
   const [animeInfo, setAnimeInfo] = useState(null);
   const [isFavorite, setIsfavorite] = useState(null);
   const [isComment, setIsComment] = useState(null);
+  const [isNote, setIsNote] = useState(null);
+  const [getNote, setGetNote] = useState(null);
   const [allComments, setAllComment] = useState(null);
 
   const [user_id, setUser_id] = useState(null);
@@ -94,6 +96,30 @@ const Anime = () => {
           setIsComment(true);
           setAllComment(commentsData.data);
           // console.log(allComments);
+        }
+
+        // GET note
+        const getNote = await fetch(
+          `${
+            import.meta.env.VITE_REACT_APP_API_URL
+          }hetic-architecture/backend/api/note.php?animeId=${data.data.mal_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const noteData = await getNote.json();
+        // console.log(commentsData);
+        if (noteData && noteData.status === "error") {
+          setIsNote(false);
+          // console.log("pas de note");
+        } else {
+          // console.log(noteData);
+          setIsNote(true);
+          setGetNote(noteData.data);
         }
       } catch (error) {
         console.error(
@@ -248,7 +274,7 @@ const Anime = () => {
       note: note,
     };
 
-    console.log(user_id, animeInfo.data.mal_id, animeInfo.data.title, note);
+    // console.log(user_id, animeInfo.data.mal_id, animeInfo.data.title, note);
 
     // Effectuer le POST du commentaire
     fetch(
@@ -265,37 +291,35 @@ const Anime = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        // document.querySelector("textarea").value = "";
 
         // Si le POST est réussi, effectuer le GET pour récupérer la liste mise à jour des commentaires
-        // fetch(
-        //   `${
-        //     import.meta.env.VITE_REACT_APP_API_URL
-        //   }hetic-architecture/backend/api/comments.php?animeId=${
-        //     animeInfo.data.mal_id
-        //   }`,
-        //   {
-        //     method: "GET",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //   }
-        // )
-        //   .then((response) => response.json())
-        //   .then((commentsData) => {
-        //     if (commentsData && commentsData.status === "error") {
-        //       setIsComment(false);
-        //     } else {
-        //       setIsComment(true);
-        //       setAllComment(commentsData.data);
-        //     }
-        //   })
-        //   .catch((error) => console.error("Erreur:", error));
+        fetch(
+          `${
+            import.meta.env.VITE_REACT_APP_API_URL
+          }hetic-architecture/backend/api/note.php?animeId=${
+            animeInfo.data.mal_id
+          }`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((response) => response.json())
+          .then((noteData) => {
+            if (noteData && noteData.status === "error") {
+              setIsNote(false);
+            } else {
+              setIsNote(true);
+              console.log(noteData.data);
+              setGetNote(noteData.data);
+            }
+          })
+          .catch((error) => console.error("Erreur:", error));
       })
       .catch((error) => console.error("Erreur:", error));
   };
-
-  // console.log(note);
 
   if (!animeInfo) {
     return <div>Chargement...</div>;
@@ -315,7 +339,16 @@ const Anime = () => {
       </div>
 
       <div className="flex flex-col items-start gap-2 mt-4">
-        <p>Note : XX/10 (X membres)</p>
+        <p>
+          Note :{" "}
+          {isNote
+            ? getNote.nb === "0"
+              ? "Pas encore de note, soyez le premier à noter cette anime !"
+              : `${getNote.note_general} / 10 (${getNote.nb} ${
+                  getNote.nb === "1" ? "membre" : "membres"
+                })`
+            : "Pas encore de note, soyez le premier à noter cette anime !"}
+        </p>
 
         {isUserLoggedIn ? (
           <div className="flex flex-row gap-x-2 items-center">

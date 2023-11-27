@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $data['userId'];
     $animeId = $data['animeId'];
     $animeTitle = $data['animeTitle'];
-    $note = $data['note'];
+    $status = $data['status'];
 
     require_once('../Config/DatabaseManager.php');
 
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db = \App\Config\DatabaseManager::getDB();
         $stmt = $db->prepare('INSERT INTO watchlist (user_id, anime_id, anime_title, status) VALUES (?, ?, ?, ?) 
                              ON DUPLICATE KEY UPDATE status = VALUES(status)');
-        $stmt->execute([$userId, $animeId, $animeTitle, $note]);
+        $stmt->execute([$userId, $animeId, $animeTitle, $status]);
 
         echo json_encode(['status' => 'success', 'message' => $data]);
     } catch (\PDOException $e) {

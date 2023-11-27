@@ -348,11 +348,13 @@ const Anime = () => {
     event.preventDefault();
 
     const updatedData = {
-      userId: user_id,
+      userId: parseInt(user_id, 10),
       animeId: animeInfo.data.mal_id,
       animeTitle: animeInfo.data.title,
       status: status,
     };
+
+    console.log(updatedData);
 
     // Effectuer le POST du commentaire
     fetch(

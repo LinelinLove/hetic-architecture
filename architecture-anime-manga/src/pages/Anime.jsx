@@ -62,9 +62,7 @@ const Anime = () => {
         const getUserIdData = await getUserId.json();
 
         if (getUserIdData && getUserIdData.status === "success") {
-          // console.log(getUserIdData);
           setUser_id(getUserIdData.data.id);
-          // console.log(user_id);
         }
 
         // GET if this anime the favorite of the user
@@ -83,11 +81,9 @@ const Anime = () => {
         );
 
         const favoriteData = await favoriteRes.json();
-        // console.log(user_id, data.data.mal_id);
 
         if (favoriteData && favoriteData.status === "error") {
           setIsfavorite(false);
-          // console.log(favoriteData);
         } else {
           setIsfavorite(true);
         }
@@ -131,12 +127,9 @@ const Anime = () => {
         );
 
         const noteData = await getNote.json();
-        // console.log(commentsData);
         if (noteData && noteData.status === "error") {
           setIsNote(false);
-          // console.log("pas de note");
         } else {
-          // console.log(noteData);
           setIsNote(true);
           setGetNote(noteData.data);
         }
@@ -157,20 +150,11 @@ const Anime = () => {
         );
 
         const noteDataUser = await getNoteUser.json();
-        // console.log(commentsData);
         if (noteDataUser && noteDataUser.status === "error") {
           setIsUserNote(false);
         } else {
           setIsUserNote(true);
           setUserNote(noteDataUser);
-          // if (userNote !== null) {
-          //   if (note === "") {
-          //     setNote(userNote.data.note);
-          //     console.log("ok");
-          //   } else {
-          //     console.log("chai pas");
-          //   }
-          // }
         }
       } catch (error) {
         console.error(
@@ -308,8 +292,6 @@ const Anime = () => {
       note: note,
     };
 
-    // console.log(user_id, animeInfo.data.mal_id, animeInfo.data.title, note);
-
     // Effectuer le POST du commentaire
     fetch(
       import.meta.env.VITE_REACT_APP_API_URL +
@@ -428,7 +410,6 @@ const Anime = () => {
               <option value="">--</option>
               <option value="finished">Terminé</option>
               <option value="towatch">A voir</option>
-              {/* pas de nombre d'épisode */}
               <option value="giveup">Abandonné</option>
               <option value="ongoing">En cours</option>
             </select>
@@ -484,13 +465,6 @@ const Anime = () => {
           allComments.map((comment, index) => (
             <div key={comment.id}>
               <div className="flex flex-row gap-x-4 mt-8">
-                {/* <Link to={`/profil/${comment.user_id}`}>
-                  <img
-                    src={comment.profil_picture}
-                    alt="animeImage"
-                    className="h-[72px] w-[72px] object-cover rounded"
-                  />
-                </Link> */}
                 <div className="flex flex-col bg-black w-full rounded p-2 gap-2">
                   <p>
                     #{index + 1} Par{" "}

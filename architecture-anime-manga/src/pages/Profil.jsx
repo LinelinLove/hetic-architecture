@@ -3,6 +3,7 @@ import { useAuth } from "../pages/AuthContext";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 export default function Profil() {
+  const navigate = useNavigate();
   const { user, isUserLoggedIn } = useAuth();
 
   // si on recup un id dans la route
@@ -15,16 +16,19 @@ export default function Profil() {
   // }, [isUserLoggedIn, user]);
 
   const [userData, setUserData] = useState({});
-  const userId = user ? user.uid : null;
-  const [selectedTab, setSelectedTab] = useState("favoris");
   const [age, setAge] = useState("");
+  const userId = user ? user.uid : null;
+
+  const [selectedTab, setSelectedTab] = useState("favoris");
   const [userNotFound, setUserNotFound] = useState(false);
-  const [getFavData, setGetFavData] = useState(null);
   const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
-  const navigate = useNavigate();
+  const [getFavData, setGetFavData] = useState(null);
+  const [getCommentsData, setGetCommentsData] = useState(null);
+
   const handleAnimeClick = (anime) => {
     navigate(`/anime/${anime}`);
   };
+
   // GET
   useEffect(() => {
     if (user_id) {
@@ -78,9 +82,9 @@ export default function Profil() {
     }
   }, [userId, user_id]);
 
-  // fetch la liste des favoris
   useEffect(() => {
     if (isUserDataLoaded && userData !== undefined) {
+      // fetch la liste des favoris
       fetch(
         import.meta.env.VITE_REACT_APP_API_URL +
           `hetic-architecture/backend/api/getFavoriteperUser.php?userId=${userData.id}`,
@@ -96,6 +100,25 @@ export default function Profil() {
           setGetFavData(data.data);
           // console.log(userData.id);
           // console.log(getFavData);
+        })
+        .catch((error) =>
+          console.error("Erreur de récupération des données:", error)
+        );
+
+      // fetch les animes ou le user a commenté
+      fetch(
+        import.meta.env.VITE_REACT_APP_API_URL +
+          `hetic-architecture/backend/api/getCommentPerUser.php?userId=${userData.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setGetCommentsData(data.data);
         })
         .catch((error) =>
           console.error("Erreur de récupération des données:", error)
@@ -185,7 +208,8 @@ export default function Profil() {
             selectedTab === "commentaire" ? "font-bold underline" : ""
           }`}
         >
-          Commentaire (??)
+          Commentaires{" "}
+          {getCommentsData != null ? ` (${getCommentsData.length})` : " (0)"}
         </p>
       </div>
 
@@ -215,10 +239,39 @@ export default function Profil() {
         <p>Ici vous trouverez les animes que {userData.username} a notés</p>
       </div>
       <div
-        style={{ display: selectedTab === "commentaire" ? "block" : "none" }}
+        style={{
+          display: selectedTab === "commentaire" ? "block" : "none",
+        }}
       >
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
-        <p>Ici vous trouverez les animes que {userData.username} a commentés</p>
+        {getCommentsData != null
+          ? getCommentsData.map((comment, index) => (
+              <div key={index}>
+                <div className="flex flex-row gap-x-4 mt-8">
+                  <Link to={`/profil/${userData.username}`}>
+                    <img
+                      src={userData.profil_picture}
+                      alt="animeImage"
+                      className="h-[72px] w-[72px] !max-w-[72px] object-cover rounded"
+                    />
+                  </Link>
+                  <div className="flex flex-col bg-black w-full rounded p-2 gap-2">
+                    <p>
+                      <Link to={`/anime/${comment.anime_id}`}>
+                        {comment.anime_title}
+                      </Link>{" "}
+                      - Par{" "}
+                      <Link to={`/profil/${userData.username}`}>
+                        {userData.username}{" "}
+                      </Link>
+                      le {comment.date.split(" ")[0]} à{" "}
+                      {comment.date.split(" ")[1]}
+                    </p>
+                    <p>{comment.comment}</p>
+                  </div>
+                </div>
+              </div>
+            ))
+          : `${userData.username} n'a encore commenté encore aucune fiche d'anime !`}
       </div>
     </div>
 

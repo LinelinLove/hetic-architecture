@@ -11,7 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     require_once('../Config/DatabaseManager.php');
     $db = \App\Config\DatabaseManager::getDB();
 
-    $sql = "SELECT * FROM list_favorite WHERE user_id = :user_id ORDER BY `list_favorite`.`anime_title` ASC";
+    // $sql = "SELECT anime_title, anime_id, COUNT(*) AS total_comments FROM comments WHERE user_id = :user_id GROUP BY anime_id ORDER BY `comments`.`anime_title` ASC;";
+    $sql = "SELECT comment, date, anime_title, comments.anime_id FROM comments INNER JOIN user on user.id = comments.user_id WHERE user_id = :user_id";
     $stmt = $db->prepare($sql);
     $stmt->bindParam(":user_id", $userId);
     $stmt->execute();

@@ -237,6 +237,66 @@ const Anime = () => {
       .catch((error) => console.error("Erreur:", error));
   };
 
+  // POST comment
+  const postNote = (event) => {
+    event.preventDefault();
+
+    const updatedData = {
+      userId: user_id,
+      animeId: animeInfo.data.mal_id,
+      animeTitle: animeInfo.data.title,
+      note: note,
+    };
+
+    console.log(user_id, animeInfo.data.mal_id, animeInfo.data.title, note);
+
+    // Effectuer le POST du commentaire
+    fetch(
+      import.meta.env.VITE_REACT_APP_API_URL +
+        `hetic-architecture/backend/api/note.php`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // document.querySelector("textarea").value = "";
+
+        // Si le POST est réussi, effectuer le GET pour récupérer la liste mise à jour des commentaires
+        // fetch(
+        //   `${
+        //     import.meta.env.VITE_REACT_APP_API_URL
+        //   }hetic-architecture/backend/api/comments.php?animeId=${
+        //     animeInfo.data.mal_id
+        //   }`,
+        //   {
+        //     method: "GET",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //   }
+        // )
+        //   .then((response) => response.json())
+        //   .then((commentsData) => {
+        //     if (commentsData && commentsData.status === "error") {
+        //       setIsComment(false);
+        //     } else {
+        //       setIsComment(true);
+        //       setAllComment(commentsData.data);
+        //     }
+        //   })
+        //   .catch((error) => console.error("Erreur:", error));
+      })
+      .catch((error) => console.error("Erreur:", error));
+  };
+
+  // console.log(note);
+
   if (!animeInfo) {
     return <div>Chargement...</div>;
   }
@@ -270,7 +330,8 @@ const Anime = () => {
               step="1"
               onChange={handleNoteChange}
             />
-            / 10
+            <p>/ 10</p>
+            <button onClick={postNote}>Valider</button>
           </div>
         ) : (
           ""

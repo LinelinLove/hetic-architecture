@@ -355,13 +355,13 @@ const Anime = () => {
           allComments.map((comment, index) => (
             <div key={comment.id}>
               <div className="flex flex-row gap-x-4 mt-8">
-                <Link to={`/profil/${comment.user_id}`}>
+                {/* <Link to={`/profil/${comment.user_id}`}>
                   <img
                     src={comment.profil_picture}
                     alt="animeImage"
                     className="h-[72px] w-[72px] object-cover rounded"
                   />
-                </Link>
+                </Link> */}
                 <div className="flex flex-col bg-black w-full rounded p-2 gap-2">
                   <p>
                     #{index + 1} Par{" "}

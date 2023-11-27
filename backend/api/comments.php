@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $db = \App\Config\DatabaseManager::getDB();
 
     // $sql = "SELECT * FROM comments WHERE anime_id = :anime_id";
-    $sql = "SELECT comments.id, user_id, comment, date, anime_title, user.username, user.profil_picture FROM comments INNER JOIN user ON comments.user_id = user.id WHERE anime_id = :anime_id;";
+    $sql = "SELECT comments.id, user_id, comment, date, anime_title, user.username FROM comments INNER JOIN user ON comments.user_id = user.id WHERE anime_id = :anime_id;";
     $stmt = $db->prepare($sql);
 
     $stmt->bindParam(":anime_id", $animeId);

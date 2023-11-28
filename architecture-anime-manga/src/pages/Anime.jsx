@@ -27,14 +27,12 @@ const Anime = () => {
   const [isFavorite, setIsfavorite] = useState(null);
 
   const [status, setStatus] = useState("");
-  // const [status, setStatus] = useState("");
+  const [currentEpisode, setCurrentEpisode] = useState("");
 
   const handleStatusChange = (event) => {
     // Mettre à jour la valeur de l'état avec la valeur sélectionnée
     setStatus(event.target.value);
   };
-
-  const [nbepisode, setNbEpisode] = useState("");
 
   const handleNoteChange = (event) => {
     // Assurez-vous que la note est dans la plage spécifiée (entre 0 et 10)
@@ -43,11 +41,20 @@ const Anime = () => {
   };
 
   const handleEpisodeChange = (event) => {
-    const newNbEpisode = Math.max(
-      1,
-      Math.min(animeInfo.data.episodes, event.target.value)
-    );
-    setNbEpisode(newNbEpisode);
+    let newNbEpisode;
+
+    if (animeInfo.data.episodes === null) {
+      // Si animeInfo.data.episodes est null, utilisez simplement la valeur de l'événement
+      newNbEpisode = event.target.value;
+    } else {
+      // Sinon, effectuez une vérification min-max
+      newNbEpisode = Math.max(
+        1,
+        Math.min(animeInfo.data.episodes, event.target.value)
+      );
+    }
+
+    setCurrentEpisode(newNbEpisode);
   };
 
   useEffect(() => {
@@ -56,6 +63,7 @@ const Anime = () => {
         const res = await fetch(`https://api.jikan.moe/v4/anime/${anime_id}`);
         const data = await res.json();
         setAnimeInfo(data);
+        // console.log(animeInfo.data);
 
         const getUserId = await fetch(
           import.meta.env.VITE_REACT_APP_API_URL +
@@ -161,13 +169,10 @@ const Anime = () => {
         if (statusData && statusData.status === "error") {
           // setIsUserNote(false);
         } else {
-          // setIsUserNote(true);
-          // console.log(statusData.data.status);
           setStatus(statusData.data.status);
-          // setNote(statusData.data.note);
         }
 
-        // GET status
+        // GET note
         const getNoteUser = await fetch(
           `${
             import.meta.env.VITE_REACT_APP_API_URL
@@ -190,6 +195,28 @@ const Anime = () => {
           setUserNote(noteDataUser.data);
           setNote(noteDataUser.data.note);
         }
+
+        // GET current_episode watchlist
+        const getCurrentEpisode = await fetch(
+          `${
+            import.meta.env.VITE_REACT_APP_API_URL
+          }hetic-architecture/backend/api/nb_episode.php?userId=${user_id}&animeId=${
+            data.data.mal_id
+          }`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const currentEpisodeData = await getCurrentEpisode.json();
+        if (currentEpisodeData && currentEpisodeData.status === "error") {
+        } else {
+          // console.log(currentEpisodeData.data.current_episode);
+          setCurrentEpisode(currentEpisodeData.data.current_episode);
+        }
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des données de l'anime",
@@ -200,6 +227,7 @@ const Anime = () => {
 
     fetchData();
   }, [anime_id, userId, user_id]);
+
   // POST fav
   const postFavorite = (event) => {
     event.preventDefault();
@@ -329,7 +357,6 @@ const Anime = () => {
       note: note,
     };
 
-    // POST note
     fetch(
       import.meta.env.VITE_REACT_APP_API_URL +
         `hetic-architecture/backend/api/note.php`,
@@ -372,7 +399,7 @@ const Anime = () => {
       .catch((error) => console.error("Erreur:", error));
   };
 
-  // POST status
+  // POST status watchlist
   const postStatus = (event) => {
     event.preventDefault();
 
@@ -383,9 +410,6 @@ const Anime = () => {
       status: status,
     };
 
-    console.log(updatedData);
-
-    // Effectuer le POST du commentaire
     fetch(
       import.meta.env.VITE_REACT_APP_API_URL +
         `hetic-architecture/backend/api/watchlist.php`,
@@ -403,6 +427,69 @@ const Anime = () => {
       })
       .catch((error) => console.error("Erreur:", error));
   };
+
+  // POST current episode watchlist
+  const postCurrentEpisode = (event) => {
+    event.preventDefault();
+
+    if (currentEpisode > 9999) {
+      alert("Vous ne pouvez pas mettre au-delà de 9999 épisodes.");
+      return;
+    }
+    const updatedData = {
+      userId: parseInt(user_id, 10),
+      animeId: animeInfo.data.mal_id,
+      currentEpisode: currentEpisode,
+    };
+
+    fetch(
+      import.meta.env.VITE_REACT_APP_API_URL +
+        `hetic-architecture/backend/api/nb_episode.php`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.error("Erreur:", error));
+  };
+
+  function mapSeasonToFrench(season) {
+    switch (season) {
+      case "fall":
+        return "Automne";
+      case "spring":
+        return "Printemps";
+      case "winter":
+        return "Hiver";
+      case "summer":
+        return "Été";
+      default:
+        return season; // Retourner la saison telle quelle si elle ne correspond à aucune des saisons connues
+    }
+  }
+
+  function formatAiredDate(aired) {
+    if (!aired || !aired.from || !aired.to) {
+      return "Information non disponible";
+    }
+
+    const fromDate = new Date(aired.from);
+    const toDate = new Date(aired.to);
+
+    // Formater les dates en français au format JJ/MM/AAAA
+    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    const formattedFromDate = fromDate.toLocaleDateString("fr-FR", options);
+    const formattedToDate = toDate.toLocaleDateString("fr-FR", options);
+
+    return `du ${formattedFromDate} au ${formattedToDate}`;
+  }
 
   if (!animeInfo) {
     return <div>Chargement...</div>;
@@ -492,27 +579,92 @@ const Anime = () => {
           ""
         )}
 
-        {isUserLoggedIn ? (
+        {isUserLoggedIn && status && status !== "towatch" && (
           <div className="flex flex-row items-center gap-4">
-            <label htmlFor="nbepisode">Nombre d'épisode : </label>
+            <label htmlFor="nbepisode">Nombre d'épisodes : </label>
             <div className="flex flex-row gap-2">
               <input
                 type="number"
                 id="nbepisode"
                 name="nbepisode"
-                value={nbepisode}
                 min="1"
-                max={animeInfo.data.episodes}
+                max={
+                  animeInfo.data.episodes !== null
+                    ? animeInfo.data.episodes
+                    : 9999
+                }
                 step="1"
                 onChange={handleEpisodeChange}
+                value={currentEpisode || ""}
+                className="text-right"
               />
+
               <p> / {animeInfo.data.episodes}</p>
             </div>
-            <button>Valider</button>
+            <button onClick={postCurrentEpisode}>Valider</button>
           </div>
+        )}
+      </div>
+
+      <div>
+        <p>Titre original : {animeInfo.data.title_japanese}</p>
+        <p>Durée : {animeInfo.data.duration}</p>
+        <p>Type : {animeInfo.data.type}</p>
+        <p>Date de diffusion : {formatAiredDate(animeInfo.data.aired)}</p>
+
+        <p>
+          Genre :{" "}
+          {animeInfo.data.genres.map((genre, index) => (
+            <span key={genre.mal_id}>
+              {genre.name}
+              {index < animeInfo.data.genres.length - 1 ? ", " : ""}
+            </span>
+          ))}
+        </p>
+        <p>
+          Thèmes :{" "}
+          {animeInfo.data.themes.map((theme, index) => (
+            <span key={theme.mal_id}>
+              {theme.name}
+              {index < animeInfo.data.themes.length - 1 ? ", " : ""}
+            </span>
+          ))}
+        </p>
+        <p>
+          Studios :{" "}
+          {animeInfo.data.studios.map((studios, index) => (
+            <span key={studios.mal_id}>
+              {studios.name}
+              {index < animeInfo.data.studios.length - 1 ? ", " : ""}
+            </span>
+          ))}
+        </p>
+
+        <p>
+          Licences :{" "}
+          {animeInfo.data.licensors.map((licensor, index) => (
+            <span key={licensor.mal_id}>
+              {licensor.name}
+              {index < animeInfo.data.licensors.length - 1 ? ", " : ""}
+            </span>
+          ))}
+        </p>
+
+        {animeInfo.data.season ? (
+          <p>Saison : {mapSeasonToFrench(animeInfo.data.season)}</p>
         ) : (
           ""
         )}
+
+        <p>Origine : {animeInfo.data.source}</p>
+        <p>Âge conseillé : {animeInfo.data.rating}</p>
+        <p>Statut : {animeInfo.data.status}</p>
+        <p>
+          Nombre d'épisode :{" "}
+          {animeInfo.data.episodes ? animeInfo.data.episodes : "Inconnu"}
+        </p>
+
+        {animeInfo.data.season ? <p>Année : {animeInfo.data.year}</p> : ""}
       </div>
 
       <div className="mt-10">

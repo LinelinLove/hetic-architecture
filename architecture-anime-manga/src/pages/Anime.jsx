@@ -6,23 +6,25 @@ import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 
 const Anime = () => {
+  const { user, isUserLoggedIn } = useAuth();
+  const [user_id, setUser_id] = useState(null);
+  const userId = user ? user.uid : null;
+
   const { anime_id } = useParams(); // Utilisez useParams pour obtenir l'ID de l'URL
+
   const [animeInfo, setAnimeInfo] = useState(null);
-  const [isFavorite, setIsfavorite] = useState(null);
+
   const [isComment, setIsComment] = useState(null);
-  const [isNote, setIsNote] = useState(null);
-  const [getNote, setGetNote] = useState(null);
   const [allComments, setAllComment] = useState(null);
 
-  const [isUserNote, setIsUserNote] = useState(null);
+  const [isNote, setIsNote] = useState(false); // note golobal de l'anime
+  const [getNote, setGetNote] = useState(null);
 
+  const [isUserNote, setIsUserNote] = useState(false); // note de l'utilisateur connecté
   const [userNote, setUserNote] = useState(null);
+  const [note, setNote] = useState("");
 
-  const [user_id, setUser_id] = useState(null);
-
-  const { user, isUserLoggedIn } = useAuth();
-
-  const userId = user ? user.uid : null;
+  const [isFavorite, setIsfavorite] = useState(null);
 
   const [status, setStatus] = useState("");
 
@@ -31,7 +33,6 @@ const Anime = () => {
     setStatus(event.target.value);
   };
 
-  const [note, setNote] = useState("");
   const [nbepisode, setNbEpisode] = useState("");
 
   const handleNoteChange = (event) => {
@@ -121,7 +122,7 @@ const Anime = () => {
         }
 
         // GET note general
-        const getNote = await fetch(
+        const getNoteGeneral = await fetch(
           `${
             import.meta.env.VITE_REACT_APP_API_URL
           }hetic-architecture/backend/api/note.php?animeId=${data.data.mal_id}`,
@@ -133,9 +134,8 @@ const Anime = () => {
           }
         );
 
-        const noteData = await getNote.json();
+        const noteData = await getNoteGeneral.json();
         if (noteData && noteData.status === "error") {
-          setIsNote(false);
         } else {
           setIsNote(true);
           setGetNote(noteData.data);
@@ -161,7 +161,8 @@ const Anime = () => {
           setIsUserNote(false);
         } else {
           setIsUserNote(true);
-          setUserNote(noteDataUser);
+          setUserNote(noteDataUser.data);
+          setNote(noteDataUser.data.note);
         }
       } catch (error) {
         console.error(
@@ -173,7 +174,6 @@ const Anime = () => {
 
     fetchData();
   }, [anime_id, userId, user_id]);
-
   // POST fav
   const postFavorite = (event) => {
     event.preventDefault();
@@ -287,9 +287,14 @@ const Anime = () => {
       .catch((error) => console.error("Erreur:", error));
   };
 
-  // POST comment
+  // POST post note
   const postNote = (event) => {
     event.preventDefault();
+
+    if (note === "") {
+      alert("Vous devez mettre une note entre 1 et 10");
+      return;
+    }
 
     const updatedData = {
       userId: user_id,
@@ -298,7 +303,7 @@ const Anime = () => {
       note: note,
     };
 
-    // Effectuer le POST du commentaire
+    // POST note
     fetch(
       import.meta.env.VITE_REACT_APP_API_URL +
         `hetic-architecture/backend/api/note.php`,
@@ -313,8 +318,7 @@ const Anime = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-
-        // Si le POST est réussi, effectuer le GET pour récupérer la liste mise à jour des commentaires
+        // Si le POST est réussi, effectuer le GET pour récupérer la liste mise à jour des notes
         fetch(
           `${
             import.meta.env.VITE_REACT_APP_API_URL
@@ -331,11 +335,10 @@ const Anime = () => {
           .then((response) => response.json())
           .then((noteData) => {
             if (noteData && noteData.status === "error") {
-              setIsNote(false);
             } else {
               setIsNote(true);
-              console.log(noteData.data);
               setGetNote(noteData.data);
+              setIsUserNote(true);
             }
           })
           .catch((error) => console.error("Erreur:", error));
@@ -371,32 +374,6 @@ const Anime = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-
-        // Si le POST est réussi, effectuer le GET pour récupérer la liste mise à jour des commentaires
-        // fetch(
-        //   `${
-        //     import.meta.env.VITE_REACT_APP_API_URL
-        //   }hetic-architecture/backend/api/note.php?animeId=${
-        //     animeInfo.data.mal_id
-        //   }`,
-        //   {
-        //     method: "GET",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //   }
-        // )
-        //   .then((response) => response.json())
-        //   .then((noteData) => {
-        //     if (noteData && noteData.status === "error") {
-        //       setIsNote(false);
-        //     } else {
-        //       setIsNote(true);
-        //       console.log(noteData.data);
-        //       setGetNote(noteData.data);
-        //     }
-        //   })
-        //   .catch((error) => console.error("Erreur:", error));
       })
       .catch((error) => console.error("Erreur:", error));
   };
@@ -437,17 +414,16 @@ const Anime = () => {
               type="number"
               id="note"
               name="note"
-              value={note || ""}
+              value={note}
               min="1"
               max="10"
               step="1"
               onChange={handleNoteChange}
+              className="w-[40px] rounded text-right"
             />
             <p>/ 10</p>
             <button onClick={postNote}>Valider</button>
-            {userNote
-              ? `Vous avez deja mis une note à cet anime`
-              : "Vous n'avez pas encore noté cet anime"}
+            {isUserNote ? "" : "Vous n'avez pas encore noté cet anime"}
           </div>
         ) : (
           ""

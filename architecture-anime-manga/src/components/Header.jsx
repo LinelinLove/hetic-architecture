@@ -28,7 +28,7 @@ export default function Header() {
         <div>
           <Link to="/" className="flex flex-row gap-x-4 items-center">
             <img
-              src="/kitsune-kitsune-png-removebg-preview.png"
+              src="../../public/kitsune-kitsune-png-removebg-preview.png"
               alt=""
               className="w-[50px] h-[50px]"
             />

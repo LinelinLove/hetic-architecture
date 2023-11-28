@@ -491,7 +491,7 @@ const Anime = () => {
     return `du ${formattedFromDate} au ${formattedToDate}`;
   }
 
-  console.log(animeInfo);
+  // console.log(animeInfo);
 
   if (!animeInfo) {
     return <div>Chargement...</div>;

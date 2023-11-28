@@ -491,6 +491,8 @@ const Anime = () => {
     return `du ${formattedFromDate} au ${formattedToDate}`;
   }
 
+  console.log(animeInfo);
+
   if (!animeInfo) {
     return <div>Chargement...</div>;
   }
@@ -621,15 +623,21 @@ const Anime = () => {
             </span>
           ))}
         </p>
-        <p>
-          Thèmes :{" "}
-          {animeInfo.data.themes.map((theme, index) => (
-            <span key={theme.mal_id}>
-              {theme.name}
-              {index < animeInfo.data.themes.length - 1 ? ", " : ""}
-            </span>
-          ))}
-        </p>
+
+        {animeInfo.data.themes.length === 0 ? (
+          ""
+        ) : (
+          <p>
+            Thèmes :{" "}
+            {animeInfo.data.themes.map((theme, index) => (
+              <span key={theme.mal_id}>
+                {theme.name}
+                {index < animeInfo.data.themes.length - 1 ? ", " : ""}
+              </span>
+            ))}
+          </p>
+        )}
+
         <p>
           Studios :{" "}
           {animeInfo.data.studios.map((studios, index) => (
@@ -640,15 +648,19 @@ const Anime = () => {
           ))}
         </p>
 
-        <p>
-          Licences :{" "}
-          {animeInfo.data.licensors.map((licensor, index) => (
-            <span key={licensor.mal_id}>
-              {licensor.name}
-              {index < animeInfo.data.licensors.length - 1 ? ", " : ""}
-            </span>
-          ))}
-        </p>
+        {animeInfo.data.licensors.length === 0 ? (
+          ""
+        ) : (
+          <p>
+            Licences :{" "}
+            {animeInfo.data.licensors.map((licensor, index) => (
+              <span key={licensor.mal_id}>
+                {licensor.name}
+                {index < animeInfo.data.licensors.length - 1 ? ", " : ""}
+              </span>
+            ))}
+          </p>
+        )}
 
         {animeInfo.data.season ? (
           <p>Saison : {mapSeasonToFrench(animeInfo.data.season)}</p>

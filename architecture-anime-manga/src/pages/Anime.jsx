@@ -455,7 +455,7 @@ const Anime = () => {
             >
               <option value="">--</option>
               <option value="finished">Terminé</option>
-              <option value="towatch">A voir</option>
+              <option value="towatch">À voir</option>
               <option value="giveup">Abandonné</option>
               <option value="ongoing">En cours</option>
             </select>

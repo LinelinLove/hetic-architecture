@@ -250,14 +250,17 @@ export default function Profil() {
         </p>
       </div>
 
-      <div style={{ display: selectedTab === "favoris" ? "block" : "none" }}>
+      <div
+        className="w-full"
+        style={{ display: selectedTab === "favoris" ? "block" : "none" }}
+      >
         {getFavData != null ? (
-          <div>
+          <div className="w-full">
             {getFavData.map((item, index) => (
               <p
                 onClick={() => handleAnimeClick(item.anime_id)}
                 key={index}
-                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:text-blue-500 w-fit"
+                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:bg-black w-full p-2 rounded"
               >
                 {item.anime_title}
               </p>
@@ -267,16 +270,44 @@ export default function Profil() {
           `La liste de favoris de ${userData.username} est vide pour le moment !`
         )}
       </div>
-      <div style={{ display: selectedTab === "watchlist" ? "block" : "none" }}>
+      <div
+        className="w-full"
+        style={{
+          display: selectedTab === "watchlist" ? "block" : "none",
+        }}
+      >
         {getWatchListData != null ? (
-          <div>
+          <div className="w-full">
             {getWatchListData.map((item, index) => (
               <p
                 onClick={() => handleAnimeClick(item.anime_id)}
                 key={index}
-                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:text-blue-500 w-fit flex flex-row gap-x-4 justify-start w-full"
+                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:bg-black rounded w-full flex flex-row gap-x-4 justify-start w-full items-center"
               >
-                <span className="w-[100px]">{item.status}</span>
+                <span
+                  className={`w-[100px] m-2 p-2 rounded text-center ${
+                    item.status === "ongoing"
+                      ? "bg-blue-500"
+                      : item.status === "finished"
+                      ? "bg-green-500"
+                      : item.status === "giveup"
+                      ? "bg-red-500"
+                      : item.status === "towatch"
+                      ? "bg-yellow-500"
+                      : ""
+                  }`}
+                >
+                  {item.status === "ongoing"
+                    ? "En cours"
+                    : item.status === "finished"
+                    ? "Terminé"
+                    : item.status === "giveup"
+                    ? "Abandonné"
+                    : item.status === "towatch"
+                    ? "A voir"
+                    : ""}
+                </span>
+
                 <span className="w-[50px]">{item.current_episode}</span>
 
                 <span>{item.anime_title}</span>
@@ -287,16 +318,21 @@ export default function Profil() {
           `La watchlist de ${userData.username} est vide pour le moment !`
         )}
       </div>
-      <div style={{ display: selectedTab === "note" ? "block" : "none" }}>
+      <div
+        className="w-full"
+        style={{ display: selectedTab === "note" ? "block" : "none" }}
+      >
         {getNoteData != null ? (
-          <div>
+          <div className="w-full">
             {getNoteData.map((item, index) => (
               <p
                 onClick={() => handleAnimeClick(item.anime_id)}
                 key={index}
-                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:text-blue-500 w-fit flex flex-row gap-x-4"
+                className="flex flex-row items-center transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:bg-black p-2 rounded flex flex-row gap-x-4"
               >
-                <span className="w-[45px] text-right">{item.note}/10</span>
+                <span className="w-[60px] text-center rounded p-2 bg-white text-black">
+                  {item.note}/10
+                </span>
                 <span>{item.anime_title}</span>
               </p>
             ))}
@@ -306,6 +342,7 @@ export default function Profil() {
         )}
       </div>
       <div
+        className="w-full"
         style={{
           display: selectedTab === "commentaire" ? "block" : "none",
         }}

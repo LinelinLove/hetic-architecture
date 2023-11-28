@@ -7,7 +7,7 @@ import { useAuth } from "../pages/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import './Burger_style.css';
+import "./Burger_style.css";
 
 const auth = getAuth(app);
 
@@ -30,45 +30,40 @@ export default function Header() {
   };
 
   const expandBurger = () => {
-
     if (isBurger === false) {
-
       document.getElementById("burgerBox").style.display = "flex";
       setIsBurger(true);
-    
-
     } else {
-
       hideBurger();
-
     }
-    
-  }
+  };
 
   const hideBurger = () => {
-
     document.getElementById("burgerBox").style.display = "none";
     setIsBurger(false);
-
-  }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const burgerBox = document.getElementById('burgerBox');
-      const burgerIcon = document.getElementById('burgerIcon');
-  
-      if (burgerBox && !burgerBox.contains(event.target) && !burgerIcon.contains(event.target)) {
+      const burgerBox = document.getElementById("burgerBox");
+      const burgerIcon = document.getElementById("burgerIcon");
+
+      if (
+        burgerBox &&
+        !burgerBox.contains(event.target) &&
+        !burgerIcon.contains(event.target)
+      ) {
         hideBurger();
       }
     };
-  
+
     if (isBurger) {
-      document.addEventListener('click', handleClickOutside);
+      document.addEventListener("click", handleClickOutside);
     }
-  
+
     // Fonction de nettoyage pour supprimer l'écouteur d'événements
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, [isBurger]);
 
@@ -92,50 +87,58 @@ export default function Header() {
         </div>
         <ul className="flex flex-row gap-8 items-center">
           <li>
-            <Link to='./listAnimes'>
-            <FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#000000",}} size="xl" className="cursor-pointer" />  
+            <Link to="./listAnimes">
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                style={{ color: "#000000" }}
+                size="xl"
+                className="cursor-pointer"
+              />
             </Link>
           </li>
           <li>
-            
-            <FontAwesomeIcon icon={faBars} size="xl" style={{color: "#000000",}} className="cursor-pointer" onClick={expandBurger} id='burgerIcon' /> 
-            <div id="burgerBox" className='container w-60 h-80 right-6 flex '>
-              
+            <FontAwesomeIcon
+              icon={faBars}
+              size="xl"
+              style={{ color: "#000000" }}
+              className="cursor-pointer"
+              onClick={expandBurger}
+              id="burgerIcon"
+            />
+            <div id="burgerBox" className="container w-60 h-80 right-6 flex ">
               <div className="container-top">
-              {isUserLoggedIn ? (
-                  <li>
-                    <Link to="/profil" >Profil</Link>
-                  </li>
+                {isUserLoggedIn ? (
+                  <Link to="/profil">Profil</Link>
                 ) : (
                   <div>
-                    <Link to="/signup">S'inscrire</Link> 
-                    <Link to="/login">Connexion</Link>   
-                  </div> 
+                    <Link to="/signup">S'inscrire</Link>
+                    <Link to="/login">Connexion</Link>
+                  </div>
                 )}
               </div>
 
-              <div className="container-bottom flex flex-col" >
-
-              
-       
-              <Link to="/" className="burger-button">Accueil</Link> 
-              <Link to='/' className="burger-button">Liste des animes</Link>
-              <Link to='/contact' className="burger-button">Contact</Link>
-              {isUserLoggedIn ? (
-                    <Link onClick={handleSignOut} className="burger-button">Déconnexion</Link>
-                  ) : (
-                    ""
-                  )
-              }
+              <div className="container-bottom flex flex-col">
+                <Link to="/" className="burger-button">
+                  Accueil
+                </Link>
+                <Link to="/" className="burger-button">
+                  Liste des animes
+                </Link>
+                <Link to="/contact" className="burger-button">
+                  Contact
+                </Link>
+                {isUserLoggedIn ? (
+                  <Link onClick={handleSignOut} className="burger-button">
+                    Déconnexion
+                  </Link>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </li>
-
-
         </ul>
       </nav>
-
-    
     </header>
   );
 }

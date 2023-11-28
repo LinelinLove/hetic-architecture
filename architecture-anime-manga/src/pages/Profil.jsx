@@ -287,13 +287,13 @@ export default function Profil() {
                 <span
                   className={`w-[100px] m-2 p-2 rounded text-center ${
                     item.status === "ongoing"
-                      ? "bg-blue-500"
+                      ? "bg-yellow-500"
                       : item.status === "finished"
                       ? "bg-green-500"
                       : item.status === "giveup"
                       ? "bg-red-500"
                       : item.status === "towatch"
-                      ? "bg-yellow-500"
+                      ? "bg-blue-500"
                       : ""
                   }`}
                 >
@@ -304,7 +304,7 @@ export default function Profil() {
                     : item.status === "giveup"
                     ? "Abandonné"
                     : item.status === "towatch"
-                    ? "A voir"
+                    ? "À voir"
                     : ""}
                 </span>
 

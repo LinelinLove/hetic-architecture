@@ -27,6 +27,7 @@ const Anime = () => {
   const [isFavorite, setIsfavorite] = useState(null);
 
   const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
 
   const handleStatusChange = (event) => {
     // Mettre à jour la valeur de l'état avec la valeur sélectionnée
@@ -141,7 +142,32 @@ const Anime = () => {
           setGetNote(noteData.data);
         }
 
-        // GET note de l'user
+        // GET status watchlist
+        const getStatus = await fetch(
+          `${
+            import.meta.env.VITE_REACT_APP_API_URL
+          }hetic-architecture/backend/api/watchlist.php?userId=${user_id}&animeId=${
+            data.data.mal_id
+          }`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const statusData = await getStatus.json();
+        if (statusData && statusData.status === "error") {
+          // setIsUserNote(false);
+        } else {
+          // setIsUserNote(true);
+          // console.log(statusData.data.status);
+          setStatus(statusData.data.status);
+          // setNote(statusData.data.note);
+        }
+
+        // GET status
         const getNoteUser = await fetch(
           `${
             import.meta.env.VITE_REACT_APP_API_URL
@@ -451,7 +477,8 @@ const Anime = () => {
             <select
               name="status-anime"
               id="status-anime"
-              onClick={handleStatusChange}
+              value={status}
+              onChange={handleStatusChange}
             >
               <option value="">--</option>
               <option value="finished">Terminé</option>

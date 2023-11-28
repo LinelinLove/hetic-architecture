@@ -19,6 +19,7 @@ export default function Profil() {
   const [getFavData, setGetFavData] = useState(null);
   const [getCommentsData, setGetCommentsData] = useState(null);
   const [getNoteData, setGetNoteData] = useState(null);
+  const [getWatchListData, setGetWatchListData] = useState(null);
 
   const handleAnimeClick = (anime) => {
     navigate(`/anime/${anime}`);
@@ -117,7 +118,7 @@ export default function Profil() {
           console.error("Erreur de récupération des données:", error)
         );
 
-      // fetch les animes ou a mis note
+      // fetch les animes ou l'utilisateur connecté a mi une note
       fetch(
         import.meta.env.VITE_REACT_APP_API_URL +
           `hetic-architecture/backend/api/getNotePerUser.php?userId=${userData.id}`,
@@ -135,10 +136,27 @@ export default function Profil() {
         .catch((error) =>
           console.error("Erreur de récupération des données:", error)
         );
+
+      // fetch les animes ou a mis note
+      fetch(
+        import.meta.env.VITE_REACT_APP_API_URL +
+          `hetic-architecture/backend/api/getWatchlistPerUser.php?userId=${userData.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setGetWatchListData(data.data);
+        })
+        .catch((error) =>
+          console.error("Erreur de récupération des données:", error)
+        );
     }
   }, [isUserDataLoaded, userData]);
-
-  console.log(getNoteData);
 
   function calculateAge(dateOfBirth) {
     const birthDate = new Date(dateOfBirth);
@@ -206,7 +224,8 @@ export default function Profil() {
             selectedTab === "watchlist" ? "font-bold underline" : ""
           }`}
         >
-          Watchlist (??)
+          Watchlist{" "}
+          {getWatchListData != null ? ` (${getWatchListData.length})` : " (0)"}
         </p>
         <p
           onClick={() => setSelectedTab("note")}
@@ -249,8 +268,24 @@ export default function Profil() {
         )}
       </div>
       <div style={{ display: selectedTab === "watchlist" ? "block" : "none" }}>
-        <p>Ici vous trouverez la watchlist</p>
-        <p>Ici vous trouverez la watchlist</p>
+        {getWatchListData != null ? (
+          <div>
+            {getWatchListData.map((item, index) => (
+              <p
+                onClick={() => handleAnimeClick(item.anime_id)}
+                key={index}
+                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:text-blue-500 w-fit flex flex-row gap-x-4 justify-start w-full"
+              >
+                <span className="w-[100px]">{item.status}</span>
+                <span className="w-[50px]">{item.current_episode}</span>
+
+                <span>{item.anime_title}</span>
+              </p>
+            ))}
+          </div>
+        ) : (
+          `La watchlist de ${userData.username} est vide pour le moment !`
+        )}
       </div>
       <div style={{ display: selectedTab === "note" ? "block" : "none" }}>
         {getNoteData != null ? (

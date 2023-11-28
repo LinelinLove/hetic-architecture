@@ -1,0 +1,56 @@
+#burgerBox {
+
+    position: absolute;
+    z-index: 999;
+    display: none;
+    margin-top: 50px;
+    flex-direction: column;
+    border-radius: 15px;
+    background-color: white;
+
+}
+
+.container-top {
+
+    width: 100%;
+    height: 15%;
+    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: center;
+    
+
+
+}
+
+.container-bottom {
+
+    width: 100%;
+    height: 85%;
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+    align-items: center;
+
+
+}
+
+.burger-button {
+
+    padding: 8px 8px;
+    width: 75%;
+    height: 15%;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    background-color: #242424;
+
+    text-decoration: none;
+    
+
+}
+
+.Eiga {
+
+    color: #1fc0b8;
+
+}

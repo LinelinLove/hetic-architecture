@@ -34,7 +34,7 @@ export default function Affiche({ data, title }) {
           dynamicBullets: true,
           type: "progressbar",
         }}
-        navigation={true}
+        navigation={true} 
         modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper h-[500px] my-4"
       >

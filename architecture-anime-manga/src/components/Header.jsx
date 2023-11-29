@@ -131,6 +131,13 @@ export default function Header() {
                   Contact
                 </Link>
                 {isUserLoggedIn ? (
+                <Link to="/settings" className="burger-button">
+                    Paramètres
+                  </Link>
+                ) : (
+                  ""
+                )}
+                {isUserLoggedIn ? (
                   <Link onClick={handleSignOut} className="burger-button">
                     Déconnexion
                   </Link>

@@ -18,8 +18,8 @@ const EntrepriseContact = () => {
   const entrepriseInfo = {
     nom: "Eiga",
     adresse: "123 Rue de la Fleur",
-    telephone: "01-234-567-890",
-    siret: "12345678900001",
+    telephone: "01 23 45 67 89",
+    siret: "123 456 789 00001",
     email: "contact@eiga.com",
   };
 
@@ -30,7 +30,6 @@ const EntrepriseContact = () => {
     textAlign: "center",
     width: "100%",
     marginTop: "40px",
-    marginBottom: "20px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -45,10 +44,6 @@ const EntrepriseContact = () => {
     display: "block",
   };
 
-  const paragraphStyle = {
-    marginBottom: "10px",
-  };
-
   const headingStyle = {
     marginBottom: "40px",
   };
@@ -56,12 +51,11 @@ const EntrepriseContact = () => {
   return (
     <div>
       <div style={footerStyle}>
-   
-          <h2 style={headingStyle}>CONTACTEZ-NOUS</h2>
-          <span style={lineStyle}>SIRET: {entrepriseInfo.siret}</span>
-          <span style={lineStyle}>Téléphone: {entrepriseInfo.telephone}</span>
-          <span style={lineStyle}>Email: {entrepriseInfo.email}</span>
-        
+        <h2 style={headingStyle}>CONTACTEZ-NOUS</h2>
+        <span style={lineStyle}>SIRET: {entrepriseInfo.siret}</span>
+        <span style={lineStyle}>{entrepriseInfo.telephone}</span>
+        <span style={lineStyle}>{entrepriseInfo.email}</span>
+
         <p>&copy; 2023 Eiga. Tous droits réservés.</p>
       </div>
     </div>

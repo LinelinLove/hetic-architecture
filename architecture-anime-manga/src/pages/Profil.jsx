@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useAuth } from "../pages/AuthContext";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import "./Profil.css";
 
 export default function Profil() {
   const navigate = useNavigate();
@@ -186,7 +187,7 @@ export default function Profil() {
     );
   }
   return (
-    <div className="gap-4 flex flex-col items-start p-4">
+    <div className="gap-4 flex flex-col items-start p-4 ml-14 ">
       {/* <div className="bg-black gap-4 flex flex-col items-start p-10 rounded-xl mt-16"> */}
       <h1>Profil de {userData.username}</h1>
       <div className="flex flex-row gap-8">
@@ -208,7 +209,7 @@ export default function Profil() {
         </div>
       </div>
 
-      <div className="flex flex-row justify-between w-full">
+      <div className="flex flex-row justify-between w-11/12 mr-4 ml-4">
         <p
           onClick={() => setSelectedTab("favoris")}
           className={`cursor-pointer hover:underline ${
@@ -260,7 +261,7 @@ export default function Profil() {
               <p
                 onClick={() => handleAnimeClick(item.anime_id)}
                 key={index}
-                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:bg-black w-full p-2 rounded"
+                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:bg-black w-11/12 mr-4 ml-4 p-2 rounded"
               >
                 {item.anime_title}
               </p>
@@ -282,7 +283,7 @@ export default function Profil() {
               <p
                 onClick={() => handleAnimeClick(item.anime_id)}
                 key={index}
-                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:bg-black rounded w-full flex flex-row gap-x-4 justify-start w-full items-center"
+                className="transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:bg-black rounded w-11/12 mr-4 ml-4 flex flex-row gap-x-4 justify-start w-full items-center"
               >
                 <span
                   className={`w-[100px] m-2 p-2 rounded text-center ${
@@ -323,12 +324,12 @@ export default function Profil() {
         style={{ display: selectedTab === "note" ? "block" : "none" }}
       >
         {getNoteData != null ? (
-          <div className="w-full">
+          <div className="w-fw-11/12 mr-4 ml-4">
             {getNoteData.map((item, index) => (
               <p
                 onClick={() => handleAnimeClick(item.anime_id)}
                 key={index}
-                className="flex flex-row items-center transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:bg-black p-2 rounded flex flex-row gap-x-4"
+                className="flex flex-row items-center transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:bg-black p-2 rounded flex flex-row gap-x-4 w-11/12 mr-4 ml-4"
               >
                 <span className="w-[60px] text-center rounded p-2 bg-white text-black">
                   {item.note}/10
@@ -350,7 +351,7 @@ export default function Profil() {
         {getCommentsData != null
           ? getCommentsData.map((comment, index) => (
               <div key={index}>
-                <div className="flex flex-row gap-x-4 mt-8">
+                <div className="flex flex-row gap-x-4 mt-8 w-11/12 mr-4 ml-4">
                   <Link to={`/profil/${userData.username}`}>
                     <img
                       src={userData.profil_picture}
@@ -358,17 +359,17 @@ export default function Profil() {
                       className="h-[72px] w-[72px] !max-w-[72px] object-cover rounded"
                     />
                   </Link>
-                  <div className="flex flex-col bg-black w-full rounded p-2 gap-2">
+                  <div className="flex flex-col bg-black w-full rounded p-2 gap-2 ">
                     <p>
-                      <Link to={`/anime/${comment.anime_id}`}>
+                      <Link to={`/anime/${comment.anime_id}`} className="text-[#1fc0b8]">
                         {comment.anime_title}
                       </Link>{" "}
                       - Par{" "}
-                      <Link to={`/profil/${userData.username}`}>
+                      <Link to={`/profil/${userData.username}`} className="text-[#1fc0b8]">
                         {userData.username}{" "}
-                      </Link>
-                      le {comment.date.split(" ")[0]} à{" "}
-                      {comment.date.split(" ")[1]}
+                      </Link> <span className="font-bold">
+                      le {comment.date.split(" ")[0]}</span> à{" "}
+                      <span className="font-bold">{comment.date.split(" ")[1]}</span>
                     </p>
                     <p>{comment.comment}</p>
                   </div>

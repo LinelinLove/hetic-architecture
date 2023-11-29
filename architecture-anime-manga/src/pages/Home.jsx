@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import Affiche from "../components/molecules/Affiche";
 import Carousel from "../components/molecules/Carousel";
 
+
 export default function Home() {
   const [animesSeason, setAnimesSeason] = useState();
   const [animesTop, setAnimesTop] = useState();
+  const [getWatchListData, setGetWatchListData] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,6 +33,25 @@ export default function Home() {
           error
         );
       }
+
+      fetch(
+        import.meta.env.VITE_REACT_APP_API_URL +
+          `hetic-architecture/backend/api/getWatchlistPerUser.php?userId=${userData.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setGetWatchListData(data.data);
+        })
+        .catch((error) =>
+          console.error("Erreur de récupération des données:", error)
+        );
+
     };
 
     fetchData();

@@ -14,7 +14,7 @@ export const AnimeCard = ({ animelist }) => {
         ? animelist.map((anime, index) => {
             return (
               <div
-                className="w-[200px] flex flex-col justify-start gap-2 transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:text-blue-500"
+                className="w-[200px] flex flex-col justify-start gap-2 transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:text-[#1FC0B8]"
                 key={index}
                 onClick={() => handleAnimeClick(anime)}
               >

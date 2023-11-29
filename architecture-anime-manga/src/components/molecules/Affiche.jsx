@@ -19,7 +19,7 @@ export default function Affiche({ data, title }) {
   }
 
   return (
-    <div className="mx-[90px] my-4">
+    <div className="mx-[90px] my-4 pt-[2dvh]">
       <h2 className="text-3xl">{title}</h2>
       <Swiper
         loop={true}
@@ -41,21 +41,23 @@ export default function Affiche({ data, title }) {
         {data.map((item, index) => (
           <SwiperSlide
             key={index}
-            className="flex flex-col items-center justify-start h-full rounded transition cursor-pointer duration-300 ease-in-out hover:opacity-75 hover:text-blue-500"
-            onClick={() => handleAnimeClick(item)}
+            className="flex flex-col items-center justify-start h-full rounded transition duration-300 ease-in-out "
           >
-            {/* <div className="flex flex-col items-center justify-start h-full"> */}
-            <img
-              src={item.images.jpg.large_image_url}
-              alt={item.title}
-              className="object-cover !h-[475px]"
-            />
-            <div>
-              <h3 className="text-center whitespace-nowrap w-[760px] text-ellipsis overflow-hidden">
-                {item.title}
-              </h3>
+           
+            <div onClick={() => handleAnimeClick(item)} className=" anime-card flex flex-row items-center justify-start hover:opacity-75 cursor-pointer">
+              <img
+                src={item.images.jpg.large_image_url}
+                alt={item.title}
+                className="object-cover !h-[475px]"
+              />
+              <div className="h-full w-[50dvw] px-5 flex flex-col gap-4">
+                <h2 className="text-center whitespace-nowrap text-ellipsis overflow-hidden underline-offset-8">
+                  {item.title}
+                </h2>
+                <p>{item.synopsis}</p>
+              </div>
             </div>
-            {/* </div> */}
+         
           </SwiperSlide>
         ))}
       </Swiper>

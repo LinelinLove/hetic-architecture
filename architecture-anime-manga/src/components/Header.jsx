@@ -74,7 +74,7 @@ export default function Header() {
 
   return (
     <header>
-      <nav className="flex flex-row place-content-between bg-white text-black p-4 px-36">
+      <nav className="flex flex-row place-content-between shadow-2xl text-black p-4 px-36">
         <div>
           <Link to="/" className="flex flex-row gap-x-4 items-center">
             <img
@@ -90,7 +90,7 @@ export default function Header() {
             <Link to="./listAnimes">
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}
-                style={{ color: "#000000" }}
+                style={{ color: "#1FC0B8" }}
                 size="xl"
                 className="cursor-pointer"
               />
@@ -100,22 +100,25 @@ export default function Header() {
             <FontAwesomeIcon
               icon={faBars}
               size="xl"
-              style={{ color: "#000000" }}
+              style={{ color: "#1FC0B8" }}
               className="cursor-pointer"
               onClick={expandBurger}
               id="burgerIcon"
             />
             <div id="burgerBox" className="container w-60 h-80 right-6 flex ">
-              <div className="container-top">
+           
                 {isUserLoggedIn ? (
-                  <Link to="/profil">Profil</Link>
+                  <div className="container-top">
+                  <Link to="/profil" className="">Profil</Link>
+                  </div>
                 ) : (
-                  <div>
-                    <Link to="/signup">S'inscrire</Link>
-                    <Link to="/login">Connexion</Link>
+                  <div className="container-top">
+                    <Link to="/signup" >S'inscrire</Link>
+                    <h3>|</h3>
+                    <Link to="/login" >Connexion</Link>
                   </div>
                 )}
-              </div>
+         
 
               <div className="container-bottom flex flex-col">
                 <Link to="/" className="burger-button">

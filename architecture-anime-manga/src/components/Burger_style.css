@@ -17,7 +17,9 @@
     border-bottom: 1px solid black;
     display: flex;
     justify-content: center;
-    
+    padding: 5px 8px;
+    gap: 2%;
+    flex-direction: row;
 
 
 }
@@ -46,6 +48,12 @@
 
     text-decoration: none;
     
+
+}
+
+.burger-button:hover {
+    
+    background-color: #1FC0B8;
 
 }
 

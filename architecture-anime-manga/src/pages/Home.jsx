@@ -33,25 +33,6 @@ export default function Home() {
           error
         );
       }
-
-      fetch(
-        import.meta.env.VITE_REACT_APP_API_URL +
-          `hetic-architecture/backend/api/getWatchlistPerUser.php?userId=${userData.id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setGetWatchListData(data.data);
-        })
-        .catch((error) =>
-          console.error("Erreur de récupération des données:", error)
-        );
-
     };
 
     fetchData();

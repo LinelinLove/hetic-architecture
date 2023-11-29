@@ -51,9 +51,9 @@ export default function Affiche({ data, title }) {
                 className="object-cover !h-[475px]"
               />
               <div className="h-full w-[50dvw] px-5 flex flex-col gap-4">
-                <h2 className="!text-[2rem] text-center whitespace-nowrap text-ellipsis overflow-hidden underline-offset-8">
+                <h3 className="!text-[2rem] text-center whitespace-nowrap text-ellipsis overflow-hidden underline-offset-8">
                   {item.title}
-                </h2>
+                </h3>
                 <p>{item.synopsis}</p>
               </div>
             </div>

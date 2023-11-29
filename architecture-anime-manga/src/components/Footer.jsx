@@ -56,13 +56,13 @@ const EntrepriseContact = () => {
   return (
     <div>
       <div style={footerStyle}>
-        <p style={paragraphStyle}>
+   
           <h2 style={headingStyle}>CONTACTEZ-NOUS</h2>
           <span style={lineStyle}>SIRET: {entrepriseInfo.siret}</span>
           <span style={lineStyle}>Téléphone: {entrepriseInfo.telephone}</span>
           <span style={lineStyle}>Email: {entrepriseInfo.email}</span>
-        </p>
-        &copy; 2023 Eiga. Tous droits réservés.
+        
+        <p>&copy; 2023 Eiga. Tous droits réservés.</p>
       </div>
     </div>
   );

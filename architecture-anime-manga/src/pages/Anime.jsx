@@ -497,31 +497,209 @@ const Anime = () => {
     return <div>Chargement...</div>;
   }
   return (
-    <div className="p-4">
-      <div className="flex flex-row gap-8">
-        <img
-          src={animeInfo.data.images.jpg.large_image_url}
-          alt="animeImage"
-          className="h-[385px] object-cover rounded"
-        />
-        <div className="flex flex-col gap-y-8">
-          <h1>{animeInfo.data.title}</h1>
-          <p>{animeInfo.data.synopsis}</p>
+    <div className="px-[10dvh] py-10">
+      <div>
+        <h1>{animeInfo.data.title}</h1>
+        <div className="flex flex-row py-8 gap-8 inline-block align-middle">
+          <img
+            src={animeInfo.data.images.jpg.large_image_url}
+            alt="animeImage"
+            className="h-[385px] object-cover rounded"
+          />
+          <div className="flex flex-col gap-y-8">
+            <div>
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]">
+                  Titre original :{" "}
+                </h3>
+                <p>{animeInfo.data.title_japanese}</p>
+              </div>
+
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]">Durée : </h3>
+                <p>{animeInfo.data.duration}</p>
+              </div>
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]">Type : </h3>
+                <p>{animeInfo.data.type}</p>
+              </div>
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]">
+                  Date de diffusion :{" "}
+                </h3>
+                <p>{formatAiredDate(animeInfo.data.aired)}</p>
+              </div>
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]">Genre : </h3>
+                <p>
+                  {animeInfo.data.genres.map((genre, index) => (
+                    <span key={genre.mal_id}>
+                      {genre.name}
+                      {index < animeInfo.data.genres.length - 1 ? ", " : ""}
+                    </span>
+                  ))}
+                </p>
+              </div>
+
+              {animeInfo.data.themes.length === 0 ? (
+                ""
+              ) : (
+                <div className="flex">
+                  <h3 className="mr-2 font-bold text-[#1FC0B8]"> Thèmes : </h3>
+                  <p>
+                    {animeInfo.data.themes.map((theme, index) => (
+                      <span key={theme.mal_id}>
+                        {theme.name}
+                        {index < animeInfo.data.themes.length - 1 ? ", " : ""}
+                      </span>
+                    ))}
+                  </p>
+                </div>
+              )}
+
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]"> Studios : </h3>
+                <p>
+                  {animeInfo.data.studios.map((studios, index) => (
+                    <span key={studios.mal_id}>
+                      {studios.name}
+                      {index < animeInfo.data.studios.length - 1 ? ", " : ""}
+                    </span>
+                  ))}
+                </p>
+              </div>
+
+              {animeInfo.data.licensors.length === 0 ? (
+                ""
+              ) : (
+                <div className="flex">
+                  <h3 className="mr-2 font-bold text-[#1FC0B8]">
+                    {" "}
+                    Licences :{" "}
+                  </h3>
+                  <p>
+                    {animeInfo.data.licensors.map((licensor, index) => (
+                      <span key={licensor.mal_id}>
+                        {licensor.name}
+                        {index < animeInfo.data.licensors.length - 1
+                          ? ", "
+                          : ""}
+                      </span>
+                    ))}
+                  </p>
+                </div>
+              )}
+
+              {animeInfo.data.season ? (
+                <div className="flex">
+                  <h3 className="mr-2 font-bold text-[#1FC0B8]"> Saison : </h3>
+                  <p>{mapSeasonToFrench(animeInfo.data.season)}</p>
+                </div>
+              ) : (
+                ""
+              )}
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]"> Origine : </h3>
+                <p>{animeInfo.data.source}</p>
+              </div>
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]">
+                  {" "}
+                  Âge conseillé :{" "}
+                </h3>
+                <p>{animeInfo.data.rating}</p>
+              </div>
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]"> Statut : </h3>
+                <p>{animeInfo.data.status}</p>
+              </div>
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]">
+                  {" "}
+                  Nombre d'épisodes :{" "}
+                </h3>
+                <p>
+                  {animeInfo.data.episodes
+                    ? animeInfo.data.episodes
+                    : "Inconnu"}
+                </p>
+              </div>
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]"> Année: </h3>
+                <p>{animeInfo.data.season ? animeInfo.data.year : ""} </p>
+              </div>
+              <div className="flex">
+                <h3 className="mr-2 font-bold text-[#1FC0B8]"> Note : </h3>
+                {isNote
+                  ? getNote.nb === "0"
+                    ? "Pas encore de note, soyez le premier à noter cette anime !"
+                    : `${getNote.note_general} / 10 (${getNote.nb} ${
+                        getNote.nb === "1" ? "membre" : "membres"
+                      })`
+                  : "Pas encore de note, soyez le premier à noter cette anime !"}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          {isUserLoggedIn ? (
+            <div>
+              {!isFavorite ? (
+                <button
+                  onClick={postFavorite}
+                  className="h-8 text-center flex items-center justify-center hover:bg-[#1FC0B8] border-[#1FC0B8] -"
+                >
+                  <FontAwesomeIcon
+                    icon={faHeartRegular}
+                    className="align-middle"
+                  />
+                </button>
+              ) : (
+                <button
+                  onClick={deleteFavorite}
+                  className="h-8 text-center flex items-center justify-center hover:bg-[#1FC0B8] border-[#1FC0B8] -"
+                >
+                  <FontAwesomeIcon icon={faHeartSolid} />
+                </button>
+              )}
+            </div>
+          ) : (
+            ""
+          )}
+          {isUserLoggedIn ? (
+            <div className="flex flex-row gap-x-2 items-center">
+              <label htmlFor="status-anime">Statut : </label>
+              <select
+                name="status-anime"
+                id="status-anime"
+                value={status}
+                onChange={handleStatusChange}
+              >
+                <option value="">--</option>
+                <option value="finished">Terminé</option>
+                <option value="towatch">À voir</option>
+                <option value="giveup">Abandonné</option>
+                <option value="ongoing">En cours</option>
+              </select>
+              <button
+                onClick={postStatus}
+                className="h-8 text-center flex items-center justify-center hover:bg-[#1FC0B8] border-[#1FC0B8] -"
+              >
+                Valider
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
+      <div>
+        <h3 className="font-bold text-xl p-4">Synopsis</h3>
+        <div className="border-b-4 border-[#1FC0B8]"></div>
+      </div>
+      <p className="p-2">{animeInfo.data.synopsis}</p>
 
       <div className="flex flex-col items-start gap-2 mt-4">
-        <p>
-          Note :{" "}
-          {isNote
-            ? getNote.nb === "0"
-              ? "Pas encore de note, soyez le premier à noter cette anime !"
-              : `${getNote.note_general} / 10 (${getNote.nb} ${
-                  getNote.nb === "1" ? "membre" : "membres"
-                })`
-            : "Pas encore de note, soyez le premier à noter cette anime !"}
-        </p>
-
         {isUserLoggedIn ? (
           <div className="flex flex-row gap-x-2 items-center">
             <label htmlFor="note">Ma note : </label>
@@ -534,48 +712,16 @@ const Anime = () => {
               max="10"
               step="1"
               onChange={handleNoteChange}
-              className="w-[40px] rounded text-right"
+              className="w-[50px] rounded text-right"
             />
             <p>/ 10</p>
-            <button onClick={postNote}>Valider</button>
-            {isUserNote ? "" : "Vous n'avez pas encore noté cet anime"}
-          </div>
-        ) : (
-          ""
-        )}
-        <div>
-          {isUserLoggedIn ? (
-            <div>
-              {!isFavorite ? (
-                <button onClick={postFavorite}>
-                  <FontAwesomeIcon icon={faHeartRegular} />
-                </button>
-              ) : (
-                <button onClick={deleteFavorite}>
-                  <FontAwesomeIcon icon={faHeartSolid} />
-                </button>
-              )}
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-        {isUserLoggedIn ? (
-          <div className="flex flex-row gap-x-2 items-center">
-            <label htmlFor="status-anime">Statut : </label>
-            <select
-              name="status-anime"
-              id="status-anime"
-              value={status}
-              onChange={handleStatusChange}
+            <button
+              onClick={postNote}
+              className="h-8 text-center flex items-center justify-center hover:bg-[#1FC0B8] border-[#1FC0B8] -"
             >
-              <option value="">--</option>
-              <option value="finished">Terminé</option>
-              <option value="towatch">À voir</option>
-              <option value="giveup">Abandonné</option>
-              <option value="ongoing">En cours</option>
-            </select>
-            <button onClick={postStatus}>Valider</button>
+              Valider
+            </button>
+            {isUserNote ? "" : "Vous n'avez pas encore noté cet anime"}
           </div>
         ) : (
           ""
@@ -603,84 +749,19 @@ const Anime = () => {
 
               <p> / {animeInfo.data.episodes}</p>
             </div>
-            <button onClick={postCurrentEpisode}>Valider</button>
+            <button
+              onClick={postCurrentEpisode}
+              className="h-8 text-center flex items-center justify-center hover:bg-[#1FC0B8] border-[#1FC0B8] -"
+            >
+              Valider
+            </button>
           </div>
         )}
       </div>
 
       <div>
-        <p>Titre original : {animeInfo.data.title_japanese}</p>
-        <p>Durée : {animeInfo.data.duration}</p>
-        <p>Type : {animeInfo.data.type}</p>
-        <p>Date de diffusion : {formatAiredDate(animeInfo.data.aired)}</p>
-
-        <p>
-          Genre :{" "}
-          {animeInfo.data.genres.map((genre, index) => (
-            <span key={genre.mal_id}>
-              {genre.name}
-              {index < animeInfo.data.genres.length - 1 ? ", " : ""}
-            </span>
-          ))}
-        </p>
-
-        {animeInfo.data.themes.length === 0 ? (
-          ""
-        ) : (
-          <p>
-            Thèmes :{" "}
-            {animeInfo.data.themes.map((theme, index) => (
-              <span key={theme.mal_id}>
-                {theme.name}
-                {index < animeInfo.data.themes.length - 1 ? ", " : ""}
-              </span>
-            ))}
-          </p>
-        )}
-
-        <p>
-          Studios :{" "}
-          {animeInfo.data.studios.map((studios, index) => (
-            <span key={studios.mal_id}>
-              {studios.name}
-              {index < animeInfo.data.studios.length - 1 ? ", " : ""}
-            </span>
-          ))}
-        </p>
-
-        {animeInfo.data.licensors.length === 0 ? (
-          ""
-        ) : (
-          <p>
-            Licences :{" "}
-            {animeInfo.data.licensors.map((licensor, index) => (
-              <span key={licensor.mal_id}>
-                {licensor.name}
-                {index < animeInfo.data.licensors.length - 1 ? ", " : ""}
-              </span>
-            ))}
-          </p>
-        )}
-
-        {animeInfo.data.season ? (
-          <p>Saison : {mapSeasonToFrench(animeInfo.data.season)}</p>
-        ) : (
-          ""
-        )}
-
-        <p>Origine : {animeInfo.data.source}</p>
-        <p>Âge conseillé : {animeInfo.data.rating}</p>
-        <p>Statut : {animeInfo.data.status}</p>
-        <p>
-          Nombre d'épisode :{" "}
-          {animeInfo.data.episodes ? animeInfo.data.episodes : "Inconnu"}
-        </p>
-
-        {animeInfo.data.season ? <p>Année : {animeInfo.data.year}</p> : ""}
-      </div>
-
-      <div className="mt-10">
-        <p className="text-3xl">Section commentaire</p>
+        <p className="font-bold text-xl p-4">Section commentaire</p>
+        <div className="border-b-4 border-[#1FC0B8]"></div>
         {isUserLoggedIn ? (
           <div className="flex flex-col gap-y-4 items-start my-4">
             <textarea
@@ -693,7 +774,12 @@ const Anime = () => {
               maxLength={1024}
               minLength={3}
             ></textarea>
-            <button onClick={postComment}>Envoyer</button>
+            <button
+              onClick={postComment}
+              className="h-8 text-center flex items-center justify-center hover:bg-[#1FC0B8] border-[#1FC0B8]"
+            >
+              Envoyer
+            </button>
           </div>
         ) : (
           ""
@@ -706,7 +792,10 @@ const Anime = () => {
                 <div className="flex flex-col bg-black w-full rounded p-2 gap-2">
                   <p>
                     #{index + 1} Par{" "}
-                    <Link to={`/profil/${comment.user_id}`}>
+                    <Link
+                      to={`/profil/${comment.user_id}`}
+                      className="text-[#1FC0B8]"
+                    >
                       {comment.username}
                     </Link>{" "}
                     le {comment.date.split(" ")[0]} à{" "}

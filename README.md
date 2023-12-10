@@ -1,4 +1,4 @@
-# Architecture technique[<a href="linelinlove.github.io/hetic-architecture/"></a>] Par Groupe 15
+# Architecture technique par le Groupe 15
 
 - [Architecture technique](#architecture-technique)
   - [Description](#description)
@@ -38,40 +38,35 @@ Ce projet Eiga est une application web conçue pour les passionnés d'animation 
 
 ## Fonctionnalités
 
-- comments.php : Cette fonctionnalité PHP permet de gérer les commentaires liés à des animes. En mode GET, elle récupère les commentaires associés à un anime spécifique depuis une base de données, tandis qu'en mode POST, elle ajoute un nouveau commentaire à la base de données, incluant l'identifiant de l'utilisateur, de l'anime, le titre de l'anime et le contenu du commentaire. Les réponses sont renvoyées au format JSON avec des indications sur le statut de l'opération.
-- db_connexion.php : Ce script PHP, lorsqu'accédé via une requête, vérifie la connexion à une base de données en utilisant la classe DatabaseManager. En cas de réussite, il renvoie une réponse JSON indiquant le succès de la connexion avec un message informatif. En cas d'échec, il renvoie une réponse JSON signalant l'échec de la connexion et inclut un message d'erreur détaillé provenant de l'exception PDO.
-- favorite.php : Ce script PHP gère les opérations liées aux favoris d'animes. En mode GET, il vérifie si une association entre l'utilisateur (userId) et l'anime (animeId) existe dans la table list_favorite de la base de données. En mode POST, il ajoute une nouvelle entrée indiquant que l'utilisateur a ajouté l'anime à ses favoris, tandis qu'en mode DELETE, il supprime cette association, signalant la réussite ou l'échec de l'opération via des réponses JSON.
-- getCommentPerUser.php : Ce script PHP, en mode GET, récupère les commentaires associés à un utilisateur spécifique (userId) depuis la base de données. Il effectue une jointure entre les tables des commentaires et des utilisateurs pour obtenir les détails du commentaire, tels que le contenu, la date, le titre de l'anime et l'identifiant de l'anime. Les résultats sont renvoyés au format JSON, signalant le succès ou l'échec de l'opération.
-- getFavoritePerUser.php : Ce script PHP, en mode GET, récupère la liste des animes marqués comme favoris par un utilisateur spécifique (userId) depuis la base de données. Les résultats sont ordonnés par titre d'anime de manière ascendante, et la réponse est renvoyée au format JSON, indiquant le statut de l'opération et les données récupérées ou un message d'erreur en cas d'utilisateur non trouvé.
-- getNotePerUser.php : Ce script PHP, en mode GET, récupère les notes attribuées par un utilisateur spécifique (userId) aux différents animes depuis la table "note" de la base de données. Les résultats sont ordonnés par titre d'anime de manière ascendante, et la réponse est renvoyée au format JSON, indiquant le statut de l'opération et les données récupérées, ou un message d'erreur en cas d'utilisateur non trouvé.
-- getNotePerUserAnime.php : Ce script PHP, en mode GET, récupère la note attribuée par un utilisateur spécifique (userId) à un anime particulier (animeId) depuis la table "note" de la base de données. La réponse est renvoyée au format JSON, indiquant le statut de l'opération et la note attribuée, ou un message d'erreur en cas d'utilisateur non trouvé.
-- getWatchlistPerUser.php : Ce script PHP, en mode GET, récupère la liste des animes présents dans la watchlist d'un utilisateur spécifique (userId) depuis la table "watchlist" de la base de données. Les résultats sont renvoyés au format JSON, indiquant le statut de l'opération et les données récupérées, ou un message d'erreur en cas d'utilisateur non trouvé.
-- nb_episode.php : Ce script PHP, en mode GET, récupère le numéro d'épisode actuel d'un anime spécifique (animeId) dans la watchlist d'un utilisateur (userId) depuis la table "watchlist" de la base de données. En mode POST, il met à jour le numéro d'épisode actuel pour cet anime dans la watchlist de l'utilisateur en fonction des données fournies. Les réponses sont renvoyées au format JSON, indiquant le statut de l'opération et les données récupérées ou un message d'erreur en cas d'utilisateur non trouvé ou d'échec de la mise à jour.
-- note.php : Ce script PHP, en mode GET, récupère la note générale (moyenne) et le nombre total de notes attribuées par les utilisateurs à un anime spécifique (animeId) depuis la table "note" de la base de données. En mode POST, il permet aux utilisateurs de soumettre ou mettre à jour leur note pour cet anime, en enregistrant ces informations dans la base de données. Les réponses sont renvoyées au format JSON, indiquant le statut de l'opération et les données récupérées ou un message d'erreur en cas d'utilisateur non trouvé ou d'échec de la mise à jour.
-- settings.php : Ce script PHP permet de gérer les informations utilisateur. En mode GET, il récupère les données utilisateur associées à un identifiant Firebase (uidFirebase) depuis la table "user" de la base de données. En mode POST, il met à jour les informations utilisateur, telles que le nom, le prénom, le numéro de téléphone, la date de naissance, le genre et la photo de profil, en fonction des données fournies. Les réponses sont renvoyées au format JSON, indiquant le statut de l'opération et les données mises à jour ou un message d'erreur en cas d'utilisateur non trouvé ou d'échec de la mise à jour. La validation et la sécurisation des valeurs des paramètres sont recommandées pour éviter les vulnérabilités.
-- signup.php : Ce script PHP gère l'inscription d'un nouvel utilisateur. En mode POST, il récupère les données fournies (nom d'utilisateur, email, mot de passe haché, et UID Firebase), effectue des validations appropriées, puis insère ces données dans la base de données. Les réponses sont renvoyées au format JSON, indiquant le statut de l'opération et un message informatif. Il utilise le hachage bcrypt pour stocker de manière sécurisée le mot de passe de l'utilisateur. Des validations supplémentaires peuvent être ajoutées pour renforcer la sécurité.
-- users.php : Ce script PHP, en mode GET, récupère les informations de l'utilisateur spécifique identifié par son ID (id) depuis la table "user" de la base de données. Les données telles que le nom d'utilisateur, le prénom, le nom de famille, le genre, la photo de profil et la date de naissance sont extraites et renvoyées au format JSON. En cas de succès, la réponse indique le statut "success" et les données de l'utilisateur, sinon, elle signale une erreur avec un message approprié.
-- watchlist.php : Ce script PHP gère les mises à jour du statut d'un anime dans la watchlist d'un utilisateur. En mode GET, il récupère le statut de l'anime spécifié (animeId) pour un utilisateur particulier (userId) depuis la table "watchlist" de la base de données. En mode POST, il permet aux utilisateurs de mettre à jour le statut de l'anime dans leur watchlist, ajoutant, modifiant ou supprimant l'entrée en fonction des données fournies. Les réponses sont renvoyées au format JSON, indiquant le statut de l'opération et les données mises à jour ou un message d'erreur en cas d'utilisateur non trouvé ou d'échec de la mise à jour.
+- `comments.php` : Cette fonctionnalité PHP permet de gérer les commentaires liés à des animes. En mode GET, elle récupère les commentaires associés à un anime spécifique depuis une base de données, tandis qu'en mode POST, elle ajoute un nouveau commentaire à la base de données, incluant l'identifiant de l'utilisateur, de l'anime, le titre de l'anime et le contenu du commentaire. Les réponses sont renvoyées au format JSON avec des indications sur le statut de l'opération.
+- `db_connexion.php` : Ce script PHP, lorsqu'accédé via une requête, vérifie la connexion à une base de données en utilisant la classe DatabaseManager. En cas de réussite, il renvoie une réponse JSON indiquant le succès de la connexion avec un message informatif. En cas d'échec, il renvoie une réponse JSON signalant l'échec de la connexion et inclut un message d'erreur détaillé provenant de l'exception PDO.
+- `favorite.php` : Ce script PHP gère les opérations liées aux favoris d'animes. En mode GET, il vérifie si une association entre l'utilisateur (userId) et l'anime (animeId) existe dans la table list_favorite de la base de données. En mode POST, il ajoute une nouvelle entrée indiquant que l'utilisateur a ajouté l'anime à ses favoris, tandis qu'en mode DELETE, il supprime cette association, signalant la réussite ou l'échec de l'opération via des réponses JSON.
+- `getCommentPerUser.php` : Ce script PHP, en mode GET, récupère les commentaires associés à un utilisateur spécifique (userId) depuis la base de données. Il effectue une jointure entre les tables des commentaires et des utilisateurs pour obtenir les détails du commentaire, tels que le contenu, la date, le titre de l'anime et l'identifiant de l'anime. Les résultats sont renvoyés au format JSON, signalant le succès ou l'échec de l'opération.
+- `getFavoritePerUser.php` : Ce script PHP, en mode GET, récupère la liste des animes marqués comme favoris par un utilisateur spécifique (userId) depuis la base de données. Les résultats sont ordonnés par titre d'anime de manière ascendante, et la réponse est renvoyée au format JSON, indiquant le statut de l'opération et les données récupérées ou un message d'erreur en cas d'utilisateur non trouvé.
+- `getNotePerUser.php` : Ce script PHP, en mode GET, récupère les notes attribuées par un utilisateur spécifique (userId) aux différents animes depuis la table "note" de la base de données. Les résultats sont ordonnés par titre d'anime de manière ascendante, et la réponse est renvoyée au format JSON, indiquant le statut de l'opération et les données récupérées, ou un message d'erreur en cas d'utilisateur non trouvé.
+- `getNotePerUserAnime.php` : Ce script PHP, en mode GET, récupère la note attribuée par un utilisateur spécifique (userId) à un anime particulier (animeId) depuis la table "note" de la base de données. La réponse est renvoyée au format JSON, indiquant le statut de l'opération et la note attribuée, ou un message d'erreur en cas d'utilisateur non trouvé.
+- `getWatchlistPerUser.php` : Ce script PHP, en mode GET, récupère la liste des animes présents dans la watchlist d'un utilisateur spécifique (userId) depuis la table "watchlist" de la base de données. Les résultats sont renvoyés au format JSON, indiquant le statut de l'opération et les données récupérées, ou un message d'erreur en cas d'utilisateur non trouvé.
+- `nb_episode.php` : Ce script PHP, en mode GET, récupère le numéro d'épisode actuel d'un anime spécifique (animeId) dans la watchlist d'un utilisateur (userId) depuis la table "watchlist" de la base de données. En mode POST, il met à jour le numéro d'épisode actuel pour cet anime dans la watchlist de l'utilisateur en fonction des données fournies. Les réponses sont renvoyées au format JSON, indiquant le statut de l'opération et les données récupérées ou un message d'erreur en cas d'utilisateur non trouvé ou d'échec de la mise à jour.
+- `note.php` : Ce script PHP, en mode GET, récupère la note générale (moyenne) et le nombre total de notes attribuées par les utilisateurs à un anime spécifique (animeId) depuis la table "note" de la base de données. En mode POST, il permet aux utilisateurs de soumettre ou mettre à jour leur note pour cet anime, en enregistrant ces informations dans la base de données. Les réponses sont renvoyées au format JSON, indiquant le statut de l'opération et les données récupérées ou un message d'erreur en cas d'utilisateur non trouvé ou d'échec de la mise à jour.
+- `settings.php` : Ce script PHP permet de gérer les informations utilisateur. En mode GET, il récupère les données utilisateur associées à un identifiant Firebase (uidFirebase) depuis la table "user" de la base de données. En mode POST, il met à jour les informations utilisateur, telles que le nom, le prénom, le numéro de téléphone, la date de naissance, le genre et la photo de profil, en fonction des données fournies. Les réponses sont renvoyées au format JSON, indiquant le statut de l'opération et les données mises à jour ou un message d'erreur en cas d'utilisateur non trouvé ou d'échec de la mise à jour. La validation et la sécurisation des valeurs des paramètres sont recommandées pour éviter les vulnérabilités.
+- `signup.php` : Ce script PHP gère l'inscription d'un nouvel utilisateur. En mode POST, il récupère les données fournies (nom d'utilisateur, email, mot de passe haché, et UID Firebase), effectue des validations appropriées, puis insère ces données dans la base de données. Les réponses sont renvoyées au format JSON, indiquant le statut de l'opération et un message informatif. Il utilise le hachage bcrypt pour stocker de manière sécurisée le mot de passe de l'utilisateur. Des validations supplémentaires peuvent être ajoutées pour renforcer la sécurité.
+- `users.php` : Ce script PHP, en mode GET, récupère les informations de l'utilisateur spécifique identifié par son ID (id) depuis la table "user" de la base de données. Les données telles que le nom d'utilisateur, le prénom, le nom de famille, le genre, la photo de profil et la date de naissance sont extraites et renvoyées au format JSON. En cas de succès, la réponse indique le statut "success" et les données de l'utilisateur, sinon, elle signale une erreur avec un message approprié.
+- `watchlist.php` : Ce script PHP gère les mises à jour du statut d'un anime dans la watchlist d'un utilisateur. En mode GET, il récupère le statut de l'anime spécifié (animeId) pour un utilisateur particulier (userId) depuis la table "watchlist" de la base de données. En mode POST, il permet aux utilisateurs de mettre à jour le statut de l'anime dans leur watchlist, ajoutant, modifiant ou supprimant l'entrée en fonction des données fournies. Les réponses sont renvoyées au format JSON, indiquant le statut de l'opération et les données mises à jour ou un message d'erreur en cas d'utilisateur non trouvé ou d'échec de la mise à jour.
+
+[Documentation de l'API REST Eiga](apiRest.md)
 
 ## Stack
 
-- **Backend** : [Nodejs](https://nodejs.org/) + [Fastify](https://www.fastify.io/)
-- **Frontend** : [React](https://reactjs.org/)
-- **BDD** : [PostgreSQL](https://www.postgresql.org/)
-- **Conainerisation** : [Docker](https://www.docker.com/)
-- **Architecture** : Fonctionnement microservice
+- **Backend** : [PHP](https://www.php.net/docs.php)
+- **Frontend** : [React](https://reactjs.org/), [JavaScript](https://developer.mozilla.org/fr/docs/Web/JavaScript), [HTML](https://developer.mozilla.org/fr/docs/Web/HTML), [CSS](https://developer.mozilla.org/fr/docs/Web/CSS)
+- **BDD** : [MySQL](https://dev.mysql.com/doc/)
 
 ## Tools
 
-- **Tests** : [Jest](https://jestjs.io/)
-- **CI/CD** : [GitHub Actions](https://github.com/features/actions)
-- **Code Quality** : [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/)
+- **Code Quality** : [Prettier](https://prettier.io/)
 - **Prettier** : [Prettier](https://prettier.io/)
 - **Hosting** : [Vercel](https://www.vercel.com/)
-- **Commits** : [Commitizen](<[https://](https://github.com/commitizen/cz-cli)>)
-- **Components** : [Storybook](https://storybook.js.org/)
 - **CSS** : [Tailwind](https://tailwindcss.com/)
-- **Git** : [git scm](https://git-scm.com/)
 - **FIGMA** : [Figma](https://www.figma.com/file/mPasNYECl0W7Yp457kBbWZ/Projet-Architecture?type=design&node-id=0%3A1&mode=design&t=ldrP7wd1CYbiiYnA-1)
 - **Trello** : [Trello](https://trello.com/invite/b/tMHQ4JN9/ATTI396dd2b81c8eb00fbb5ed3aa33790bc6C6DA79DD/eiga)
 - **Dbdiagram** : [Dbdiagram](https://dbdiagram.io/d/eiga-archi-654e2f517d8bbd6465ee852a)
@@ -103,15 +98,20 @@ Ce projet Eiga est une application web conçue pour les passionnés d'animation 
 ## Installation
 
 - 1. Cloner le projet :
+
 ```bash
 git clone [URL du dépôt]
 ```
+
 - 2. Installer les dépendances :
+
 ```bash
 npm install
 ```
+
 - 3. [Autres étapes spécifiques au projet]
 - 4. Lancer le projet :
+
 ```bash
 npm start
 ```
@@ -125,7 +125,7 @@ npm test
 ## Déploiement
 
 Dans le dossier "architecture-anime-manga", il faut lancer la commande " npm i",
-Renommer le env.sample en .env  dans hetic-architecture/backend/.env,
+Renommer le env.sample en .env dans hetic-architecture/backend/.env,
 Copier/coller :
 DB_HOST=localhost
 DB_NAME=eiga_bdd

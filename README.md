@@ -103,9 +103,9 @@ Ce projet Eiga est une application web conçue pour les passionnés d'animation 
 ## Installation
 
 - 1. Cloner le projet :
-  ```bash
-  git clone [URL du dépôt]
-  ```
+```bash
+git clone [URL du dépôt]
+```
 - 2. Installer les dépendances :
 ```bash
 npm install
@@ -125,7 +125,7 @@ npm test
 ## Déploiement
 
 Dans le dossier "architecture-anime-manga", il faut lancer la commande " npm i",
-Créer un fichier se nommant .env dans hetic-architecture/backend/.env,
+Renommer le env.sample en .env  dans hetic-architecture/backend/.env,
 Copier/coller :
 DB_HOST=localhost
 DB_NAME=eiga_bdd
@@ -133,14 +133,7 @@ DB_USER=root
 DB_PASSWORD=
 Créer un autre fichier se nommant .env dans hetic-architecture/architecture-anime-manga/.env,
 Copier/Coller :
-VITE_REACT_APP_API_URL=http://localhost/[votrecheminpourlebackend]
-
-VITE_FIREBASE_API_KEY=AIzaSyASqgZVkJ2f0oeMvTfUprUiZZNWiBtW8Oc
-VITE_FIREBASE_AUTH_DOMAIN=eiga-f17c9.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=eiga-f17c9
-VITE_FIREBASE_STORAGE_BUCKET=eiga-f17c9.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=307767706706
-VITE_FIREBASE_APP_ID=1:307767706706:web:56f60de68a4b8059d0cb8b
+[Envoie par mail]
 
 ## Contribuer
 

@@ -110,6 +110,26 @@ npm install
 ```
 
 - 3. [Autres étapes spécifiques au projet]
+
+Renommer le env.sample en `.env` dans `hetic-architecture/backend/`,
+Compléter par ceci (ou par les informations selon vos nommages et identifiants) :
+
+```
+DB_HOST=localhost
+DB_NAME=eiga_bdd
+DB_USER=root
+DB_PASSWORD=
+```
+
+Ouvrir un environnement de développement PHP (WAMP, XAMPP, MAMP ou autre)
+
+Dans le dossier `hetic-architecture/architecture-anime-manga`, renommer le `env.sample` par `.env`,
+[Envoie par mail des informations de la clé API]
+ou bien créer dans Firebase authentificaition pour générer une clé API
+
+Dans phpMyAdmin, importer le fichier `eiga_sgbd_struc.sql` (moteur InnoDB) pour la structure de la BDD situé dans `hetic-architecture/backend/bdd/`.
+Vous pouvez également importer `eiga_sgbd_data.sql` pour les données de la BDD mais non conseillé car très long a chargé.
+
 - 4. Lancer le projet :
 
 ```bash
@@ -124,16 +144,15 @@ npm test
 
 ## Déploiement
 
-Dans le dossier "architecture-anime-manga", il faut lancer la commande " npm i",
-Renommer le env.sample en .env dans hetic-architecture/backend/.env,
-Copier/coller :
-DB_HOST=localhost
-DB_NAME=eiga_bdd
-DB_USER=root
-DB_PASSWORD=
-Créer un autre fichier se nommant .env dans hetic-architecture/architecture-anime-manga/.env,
-Copier/Coller :
-[Envoie par mail]
+Dans `hetic-architecture/architecture-anime-manga/`
+
+```bash
+npm predeploy
+```
+
+```bash
+npm deploy
+```
 
 ## Contribuer
 

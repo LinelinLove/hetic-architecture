@@ -70,7 +70,7 @@ Ce projet Eiga est une application web conçue pour les passionnés d'animation 
 - **Hosting** : [Vercel](https://www.vercel.com/)
 - **Commits** : [Commitizen](<[https://](https://github.com/commitizen/cz-cli)>)
 - **Components** : [Storybook](https://storybook.js.org/)
-- **CSS** : [Tailwind](https://tailwindcss.com/)()
+- **CSS** : [Tailwind](https://tailwindcss.com/)
 - **Git** : [git scm](https://git-scm.com/)
 - **FIGMA** : [Figma](https://www.figma.com/file/mPasNYECl0W7Yp457kBbWZ/Projet-Architecture?type=design&node-id=0%3A1&mode=design&t=ldrP7wd1CYbiiYnA-1)
 - **Trello** : [Trello](https://trello.com/invite/b/tMHQ4JN9/ATTI396dd2b81c8eb00fbb5ed3aa33790bc6C6DA79DD/eiga)

@@ -167,8 +167,8 @@ Liens vers des ressources externes, tutoriels, ou documentations qui ont été u
 
 « Je tiens à exprimer ma profonde gratitude envers Chrilsine L. dont l'engagement et l'expertise ont été inestimables, rendant ainsi notre projet bien plus fluide. Un immense merci à Luc L. pour son rôle exceptionnel de Chef de projet, orchestrant nos efforts de manière exemplaire. Mes remerciements vont également à Julie L. pour son organisation impeccable de la présentation, à Tharishanan M. pour la structure exceptionnelle du Front-End, à Rosine Y. pour son rôle crucial dans la coordination de la présentation, à Lorys L. pour son soutien continu à Julie L., et enfin, à Alex Z. qui a été un soutien constant tout au long du projet. Votre contribution exceptionnelle a été la clé de la réussite de notre équipe. Merci infiniment. »
 
-- Sources d'inspiration :
-  Notre principale source d'inspiration pour ce projet a été Animelist, un site spécialisé dans la catalogation d'animes. Nous avons cherché à tirer des leçons de leur approche pour créer une expérience utilisateur similaire et enrichissante dans notre propre projet. De plus, nous nous sommes également tournés vers AniList et Nautijon pour explorer d'autres perspectives et intégrer des éléments innovants dans notre conception.
+Sources d'inspiration :
+Notre principale source d'inspiration pour ce projet a été Animelist, un site spécialisé dans la catalogation d'animes. Nous avons cherché à tirer des leçons de leur approche pour créer une expérience utilisateur similaire et enrichissante dans notre propre projet. De plus, nous nous sommes également tournés vers AniList et Nautijon pour explorer d'autres perspectives et intégrer des éléments innovants dans notre conception.
 
 ## FAQ
 

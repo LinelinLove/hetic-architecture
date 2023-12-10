@@ -161,7 +161,7 @@ Liens vers des ressources externes, tutoriels, ou documentations qui ont été u
 
 ### Sitographie
 
-- (![Design Architecture](architecture.png))
+![Design Architecture](architecture.png)
 
 ## Remerciements
 
